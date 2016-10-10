@@ -37,8 +37,8 @@ export default {
     } while (!route);
 
     // Provide default values for title, description etc.
-    route.title = `${route.title || 'Untitled Page'} - www.reactstarterkit.com`;
-    route.description = route.description || '';
+    route.title = `${route.title || 'Japanese Tests - Japanese Quizzes'} - Jtests`;
+    route.description = route.description || 'Try new Japanese quizzes every day. Improve your Japanese significantly with our free online practice tests.';
 
     return route;
   },

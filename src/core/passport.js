@@ -17,6 +17,7 @@ import passport from 'passport';
 import { Strategy as FacebookStrategy } from 'passport-facebook';
 import { User, UserLogin, UserClaim, UserProfile } from '../data/models';
 import { auth as config } from '../config';
+import logger from '../libs/logger';
 
 /**
  * Sign in with Facebook.
@@ -38,9 +39,13 @@ passport.use(new FacebookStrategy({
         where: { name: loginName, key: profile.id },
       });
       if (userLogin) {
+        logger.info(userLogin)
         // There is already a Facebook account that belongs to you.
         // Sign in with that account or delete it, then link it with your current account.
-        done();
+        done(null, {
+          id: userLogin.id,
+          email: userLogin.email,
+        });
       } else {
         const user = await User.create({
           id: req.user.id,
@@ -63,6 +68,7 @@ passport.use(new FacebookStrategy({
             { model: UserProfile, as: 'profile' },
           ],
         });
+        logger.info(user)
         done(null, {
           id: user.id,
           email: user.email,
@@ -111,6 +117,7 @@ passport.use(new FacebookStrategy({
               { model: UserProfile, as: 'profile' },
             ],
           });
+          logger.info(user)
           done(null, {
             id: user.id,
             email: user.email,

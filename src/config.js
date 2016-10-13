@@ -29,20 +29,20 @@ export const auth = {
 
   // https://developers.facebook.com/
   facebook: {
-    id: process.env.FACEBOOK_APP_ID || '186244551745631',
-    secret: process.env.FACEBOOK_APP_SECRET || 'a970ae3240ab4b9b8aae0f9f0661c6fc',
+    id: process.env.FACEBOOK_APP_ID || '2134596160098950',
+    secret: process.env.FACEBOOK_APP_SECRET || '7e33fa3194b8bde94a6fa1e92d4b2ffc',
   },
 
   // https://cloud.google.com/console/project
   google: {
-    id: process.env.GOOGLE_CLIENT_ID || '251410730550-ahcg0ou5mgfhl8hlui1urru7jn5s12km.apps.googleusercontent.com',
-    secret: process.env.GOOGLE_CLIENT_SECRET || 'Y8yR9yZAhm9jQ8FKAL8QIEcd',
+    id: process.env.GOOGLE_CLIENT_ID || '492545033226-oscl26h1lmomsg25u8fr7ov8m8kjukn9.apps.googleusercontent.com',
+    secret: process.env.GOOGLE_CLIENT_SECRET || 'a0hGA1Q-HpmuyUKwtPGx-fsT',
   },
 
   // https://apps.twitter.com/
   twitter: {
-    key: process.env.TWITTER_CONSUMER_KEY || 'Ie20AZvLJI2lQD5Dsgxgjauns',
-    secret: process.env.TWITTER_CONSUMER_SECRET || 'KTZ6cxoKnEakQCeSpZlaUCJWGAlTEBJj0y2EMkUBujA7zWSvaQ',
+    key: process.env.TWITTER_CONSUMER_KEY || '6D8twqwHzjEO017nTOHIEZR1U',
+    secret: process.env.TWITTER_CONSUMER_SECRET || 'WBnyLz655Jh8TeUNltpJqkBDYmFyPH5DSgcWNSdqJu9Oboqzdj',
   },
 
 };

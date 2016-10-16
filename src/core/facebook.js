@@ -89,7 +89,7 @@ passport.use(new FacebookStrategy({
         const user = users[0];
         done(null, {
           id: user.id,
-          email: user.email
+          email: user.email,
         });
       } else {
         let user = await User.findOne({ where: { email: profile._json.email } });

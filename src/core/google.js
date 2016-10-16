@@ -19,7 +19,7 @@ import { host, auth as config } from '../config';
 passport.use(new GoogleStrategy({
   clientID: config.google.id,
   clientSecret: config.google.secret,
-  callbackURL: 'http://' + host + '/login/google/return',
+  callbackURL: `http://${host}/login/google/return`,
   // profileFields: ['name', 'email', 'link', 'locale', 'timezone'],
   passReqToCallback: true,
 }, (req, accessToken, refreshToken, profile, done) => {
@@ -38,7 +38,7 @@ passport.use(new GoogleStrategy({
         // Sign in with that account or delete it, then link it with your current account.
         done(null, {
           id: profile.id,
-          email: profile.email
+          email: profile.email,
         });
       } else {
         const user = await User.create({
@@ -84,7 +84,7 @@ passport.use(new GoogleStrategy({
         const user = users[0];
         done(null, {
           id: user.id,
-          email: user.email
+          email: user.email,
         });
       } else {
         let user = await User.findOne({ where: { email: profile._json.email } });
@@ -93,7 +93,7 @@ passport.use(new GoogleStrategy({
           // that account and link it with Facebook manually from Account Settings.
           done(null, {
             id: user.id,
-            email: user.email
+            email: user.email,
           });
         } else {
           user = await User.create({

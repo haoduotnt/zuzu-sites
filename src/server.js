@@ -31,6 +31,8 @@ import assets from './assets'; // eslint-disable-line import/no-unresolved
 import configureStore from './store/configureStore';
 import { setRuntimeVariable } from './actions/runtime';
 import { port, auth } from './config';
+import facebookAuth from './core/auth/facebook';
+import googleAuth from './core/auth/google';
 import logger from './libs/logger';
 
 const app = express();
@@ -70,19 +72,8 @@ app.use((req, res, next) => {
   next();
 });
 app.use(passport.initialize());
-
-app.get('/login/facebook',
-  passport.authenticate('facebook', { scope: ['email', 'user_location'], session: false })
-);
-app.get('/login/facebook/return',
-  passport.authenticate('facebook', { failureRedirect: '/login', session: false }),
-  (req, res) => {
-    const expiresIn = 60 * 60 * 24 * 180; // 180 days
-    const token = jwt.sign(req.user, auth.jwt.secret, { expiresIn });
-    res.cookie('id_token', token, { maxAge: 1000 * expiresIn, httpOnly: true });
-    res.redirect('/');
-  }
-);
+facebookAuth(app);
+googleAuth(app);
 
 //
 // Register API middleware

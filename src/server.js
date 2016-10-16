@@ -31,6 +31,7 @@ import assets from './assets'; // eslint-disable-line import/no-unresolved
 import configureStore from './store/configureStore';
 import { setRuntimeVariable } from './actions/runtime';
 import { port, auth } from './config';
+import logger from './libs/logger';
 
 const app = express();
 
@@ -148,6 +149,7 @@ pe.skipPackage('express');
 
 app.use((err, req, res, next) => { // eslint-disable-line no-unused-vars
   console.log(pe.render(err)); // eslint-disable-line no-console
+  logger.error(err);
   const html = ReactDOM.renderToStaticMarkup(
     <Html
       title="Internal Server Error"
@@ -167,7 +169,8 @@ app.use((err, req, res, next) => { // eslint-disable-line no-unused-vars
 /* eslint-disable no-console */
 models.sync().catch(err => console.error(err.stack)).then(() => {
   app.listen(port, () => {
-    console.log(`The server is running at http://localhost:${port}/`);
+    //console.log(`The server is running at http://localhost:${port}/`);
+    logger.info(`The server is running at http://localhost:${port}/`);
   });
 });
 /* eslint-enable no-console */

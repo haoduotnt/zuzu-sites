@@ -23,6 +23,7 @@ log4js.configure({
 }, { cwd: logDir });
 
 exports.info = function(msg) {
+  console.log(msg);
   log4js.getLogger('info').info(msg);
 };
 

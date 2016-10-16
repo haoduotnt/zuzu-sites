@@ -58,6 +58,17 @@ app.use(expressJwt({
   credentialsRequired: false,
   getToken: req => req.cookies.id_token,
 }));
+app.use((req, res, next) => {
+  const token = req.cookies['id-token'];
+  if (token) {
+    try {
+      req.user = jwt.verify(token, auth.jwt.secret); // eslint-disable-line no-param-reassign
+    } catch (e) {
+      logger.error(e); // eslint-disable-line no-console
+    }
+  }
+  next();
+});
 app.use(passport.initialize());
 
 app.get('/login/facebook',

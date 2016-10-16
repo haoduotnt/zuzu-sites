@@ -39,12 +39,11 @@ passport.use(new FacebookStrategy({
         where: { name: loginName, key: profile.id },
       });
       if (userLogin) {
-        logger.info(userLogin)
         // There is already a Facebook account that belongs to you.
         // Sign in with that account or delete it, then link it with your current account.
         done(null, {
-          id: userLogin.id,
-          email: userLogin.email,
+          id: profile.id,
+          email: profile._json.email,
         });
       } else {
         const user = await User.create({
@@ -68,7 +67,6 @@ passport.use(new FacebookStrategy({
             { model: UserProfile, as: 'profile' },
           ],
         });
-        logger.info(user)
         done(null, {
           id: user.id,
           email: user.email,
@@ -96,7 +94,6 @@ passport.use(new FacebookStrategy({
       } else {
         let user = await User.findOne({ where: { email: profile._json.email } });
         if (user) {
-          logger.info(user)
           // There is already an account using this email address. Sign in to
           // that account and link it with Facebook manually from Account Settings.
           done(null, {
@@ -125,7 +122,6 @@ passport.use(new FacebookStrategy({
               { model: UserProfile, as: 'profile' },
             ],
           });
-          logger.info(user)
           done(null, {
             id: user.id,
             email: user.email,

@@ -13,6 +13,7 @@ import s from './Header.css';
 import Link from '../Link';
 import Navigation from '../Navigation';
 import logoUrl from './logo-small.png';
+import FlatButton from 'material-ui/FlatButton';
 
 function Header() {
   return (
@@ -27,6 +28,12 @@ function Header() {
           <h1 className={s.bannerTitle}>React</h1>
           <p className={s.bannerDesc}>Complex web apps made easy</p>
         </div>
+        <h1>Material-UI</h1>
+        <h2>example project</h2>
+        <FlatButton label="Default" />
+        <FlatButton label="Primary" primary={true} />
+        <FlatButton label="Secondary" secondary={true} />
+        <FlatButton label="Disabled" disabled={true} />
       </div>
     </div>
   );

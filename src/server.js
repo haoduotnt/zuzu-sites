@@ -31,6 +31,9 @@ import assets from './assets'; // eslint-disable-line import/no-unresolved
 import configureStore from './store/configureStore';
 import { setRuntimeVariable } from './actions/runtime';
 import { port, auth } from './config';
+import facebookAuth from './core/auth/facebook';
+import googleAuth from './core/auth/google';
+import logger from './libs/logger';
 
 const app = express();
 
@@ -57,20 +60,20 @@ app.use(expressJwt({
   credentialsRequired: false,
   getToken: req => req.cookies.id_token,
 }));
-app.use(passport.initialize());
-
-app.get('/login/facebook',
-  passport.authenticate('facebook', { scope: ['email', 'user_location'], session: false })
-);
-app.get('/login/facebook/return',
-  passport.authenticate('facebook', { failureRedirect: '/login', session: false }),
-  (req, res) => {
-    const expiresIn = 60 * 60 * 24 * 180; // 180 days
-    const token = jwt.sign(req.user, auth.jwt.secret, { expiresIn });
-    res.cookie('id_token', token, { maxAge: 1000 * expiresIn, httpOnly: true });
-    res.redirect('/');
+app.use((req, res, next) => {
+  const token = req.cookies['id-token'];
+  if (token) {
+    try {
+      req.user = jwt.verify(token, auth.jwt.secret); // eslint-disable-line no-param-reassign
+    } catch (e) {
+      logger.error(e); // eslint-disable-line no-console
+    }
   }
-);
+  next();
+});
+app.use(passport.initialize());
+facebookAuth(app);
+googleAuth(app);
 
 //
 // Register API middleware
@@ -148,6 +151,7 @@ pe.skipPackage('express');
 
 app.use((err, req, res, next) => { // eslint-disable-line no-unused-vars
   console.log(pe.render(err)); // eslint-disable-line no-console
+  logger.error(err);
   const html = ReactDOM.renderToStaticMarkup(
     <Html
       title="Internal Server Error"
@@ -167,7 +171,8 @@ app.use((err, req, res, next) => { // eslint-disable-line no-unused-vars
 /* eslint-disable no-console */
 models.sync().catch(err => console.error(err.stack)).then(() => {
   app.listen(port, () => {
-    console.log(`The server is running at http://localhost:${port}/`);
+    // console.log(`The server is running at http://localhost:${port}/`);
+    logger.info(`The server is running at http://localhost:${port}/`);
   });
 });
 /* eslint-enable no-console */

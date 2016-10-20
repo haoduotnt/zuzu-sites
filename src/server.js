@@ -34,6 +34,7 @@ import { port, auth } from './config';
 import facebookAuth from './core/auth/facebook';
 import googleAuth from './core/auth/google';
 import logger from './libs/logger';
+import {} from './sagas';
 
 const app = express();
 
@@ -95,6 +96,10 @@ app.get('*', async (req, res, next) => {
     }, {
       cookie: req.headers.cookie,
     });
+
+    const action = type => store.dispatch({type})
+
+    action('CREATE_TOKEN', 'token_id');
 
     store.dispatch(setRuntimeVariable({
       name: 'initialNow',

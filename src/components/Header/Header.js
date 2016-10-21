@@ -7,7 +7,8 @@
  * LICENSE.txt file in the root directory of this source tree.
  */
 
-import React from 'react';
+import React, { PropTypes } from 'react';
+import { connect } from 'react-redux'
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './Header.css';
 import Link from '../Link';
@@ -15,7 +16,9 @@ import Navigation from '../Navigation';
 import logoUrl from './logo-small.png';
 import FlatButton from 'material-ui/FlatButton';
 
-function Header() {
+function Header({ token, initialNow }) {
+  console.log("Get initialNow " + initialNow);
+  console.log("Get token " + token);
   return (
     <div className={s.root}>
       <div className={s.container}>
@@ -39,4 +42,11 @@ function Header() {
   );
 }
 
-export default withStyles(s)(Header);
+function mapStateToProps(state) {
+  return {
+    token: state.token.token,
+    initialNow: state.runtime.initialNow,
+  };
+}
+
+export default connect(mapStateToProps)(withStyles(s)(Header));

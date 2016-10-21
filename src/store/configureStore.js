@@ -1,8 +1,8 @@
 import { createStore, applyMiddleware, compose } from 'redux';
-import createSagaMiddleware from 'redux-saga'
+import createSagaMiddleware from 'redux-saga';
 import thunk from 'redux-thunk';
 import rootReducer from '../reducers';
-import rootSaga from '../sagas'
+import rootSaga from '../sagas';
 import createHelpers from './createHelpers';
 import createLogger from './logger';
 
@@ -43,7 +43,7 @@ export default function configureStore(initialState, helpersConfig) {
   }
 
   // then run the saga
-  sagaMiddleware.run(rootSaga)
+  sagaMiddleware.run(rootSaga);
 
   return store;
 }

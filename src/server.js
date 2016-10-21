@@ -30,11 +30,11 @@ import routes from './routes';
 import assets from './assets'; // eslint-disable-line import/no-unresolved
 import configureStore from './store/configureStore';
 import { setRuntimeVariable } from './actions/runtime';
+import { setToken } from './actions/token';
 import { port, auth } from './config';
 import facebookAuth from './core/auth/facebook';
 import googleAuth from './core/auth/google';
 import logger from './libs/logger';
-import {} from './sagas';
 
 const app = express();
 
@@ -97,9 +97,9 @@ app.get('*', async (req, res, next) => {
       cookie: req.headers.cookie,
     });
 
-    const action = type => store.dispatch({type})
-
-    action('CREATE_TOKEN', 'token_id');
+    store.dispatch(setToken({
+      token: 'token_id',
+    }));
 
     store.dispatch(setRuntimeVariable({
       name: 'initialNow',

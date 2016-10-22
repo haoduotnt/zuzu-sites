@@ -36,6 +36,8 @@ function Header({ token, initialNow }) {
 
 function mapStateToProps(state) {
   return {
+    device: state.device.device,
+    userAgent: state.device.userAgent,
   };
 }
 

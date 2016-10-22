@@ -1,11 +1,12 @@
-import { SET_TOKEN } from '../constants';
+import { DETECT_DEVICE } from '../constants';
 
 export default function runtime(state = {}, action) {
   switch (action.type) {
-    case SET_TOKEN:
+    case DETECT_DEVICE:
       return {
         ...state,
-        token: action.payload.token,
+        device: action.payload.device,
+        userAgent: action.payload.userAgent,
       };
     default:
       return state;

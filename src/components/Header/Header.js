@@ -17,8 +17,6 @@ import logoUrl from './logo-small.png';
 import FlatButton from 'material-ui/FlatButton';
 
 function Header({ token, initialNow }) {
-  console.log("Get initialNow " + initialNow);
-  console.log("Get token " + token);
   return (
     <div className={s.root}>
       <div className={s.container}>
@@ -31,12 +29,6 @@ function Header({ token, initialNow }) {
           <h1 className={s.bannerTitle}>React</h1>
           <p className={s.bannerDesc}>Complex web apps made easy</p>
         </div>
-        <h1>Material-UI</h1>
-        <h2>example project</h2>
-        <FlatButton label="Default" />
-        <FlatButton label="Primary" primary={true} />
-        <FlatButton label="Secondary" secondary={true} />
-        <FlatButton label="Disabled" disabled={true} />
       </div>
     </div>
   );
@@ -44,8 +36,6 @@ function Header({ token, initialNow }) {
 
 function mapStateToProps(state) {
   return {
-    token: state.token.token,
-    initialNow: state.runtime.initialNow,
   };
 }
 

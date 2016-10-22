@@ -1,12 +1,17 @@
 import { createStore, applyMiddleware, compose } from 'redux';
+import createSagaMiddleware from 'redux-saga';
 import thunk from 'redux-thunk';
 import rootReducer from '../reducers';
+import rootSaga from '../sagas';
 import createHelpers from './createHelpers';
 import createLogger from './logger';
 
 export default function configureStore(initialState, helpersConfig) {
   const helpers = createHelpers(helpersConfig);
-  const middleware = [thunk.withExtraArgument(helpers)];
+  // create the saga middleware
+  const sagaMiddleware = createSagaMiddleware();
+  // create the middleware
+  const middleware = [thunk.withExtraArgument(helpers), sagaMiddleware];
 
   let enhancer;
 
@@ -36,6 +41,9 @@ export default function configureStore(initialState, helpersConfig) {
       store.replaceReducer(require('../reducers').default) // eslint-disable-line global-require
     );
   }
+
+  // then run the saga
+  sagaMiddleware.run(rootSaga);
 
   return store;
 }

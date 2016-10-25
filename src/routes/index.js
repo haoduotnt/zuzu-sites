@@ -22,6 +22,9 @@ export default {
     require('./register').default,
     require('./admin').default,
 
+    require('./jlpt').default,
+    require('./kanji').default,
+
     // place new routes before...
     require('./content').default,
     require('./notFound').default,

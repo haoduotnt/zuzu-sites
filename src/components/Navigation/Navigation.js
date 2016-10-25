@@ -7,22 +7,42 @@
  * LICENSE.txt file in the root directory of this source tree.
  */
 
-import React, { PropTypes } from 'react';
+import React, { Component, PropTypes } from 'react';
+import { connect } from 'react-redux';
 import cx from 'classnames';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './Navigation.css';
 import Link from '../Link';
 
-function Navigation({ className }) {
-  return (
-    <div className={cx(s.root, className)} role="navigation">
-      <Link className={s.link} to="/login">Log in</Link>
-    </div>
-  );
+class Navigation extends Component {
+  render() {
+    let navigation;
+    if (this.props.user) {
+      navigation = (
+        <div>Welcome {this.props.user.email}</div>
+      )
+    } else {
+      navigation = (
+        <Link className={s.link} to="/login">Log in</Link>
+      )
+    }
+    return (
+      <div className={cx(s.root, this.props.className)} role="navigation">
+        {navigation}
+      </div>
+    );
+  }
 }
 
 Navigation.propTypes = {
   className: PropTypes.string,
+  user: PropTypes.object,
 };
 
-export default withStyles(s)(Navigation);
+function mapStateToProps(state) {
+  return {
+    user: state.user,
+  };
+}
+
+export default connect(mapStateToProps)(withStyles(s)(Navigation));

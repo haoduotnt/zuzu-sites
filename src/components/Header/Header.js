@@ -7,7 +7,8 @@
  * LICENSE.txt file in the root directory of this source tree.
  */
 
-import React from 'react';
+import React, { Component, PropTypes } from 'react';
+import { connect } from 'react-redux'
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './Header.css';
 import Link from '../Link';
@@ -15,9 +16,27 @@ import Navigation from '../Navigation';
 import logoUrl from './logo-small.png';
 import FlatButton from 'material-ui/FlatButton';
 
-function Header() {
-  return (
-    <div className={s.root}>
+class Header extends Component {
+  render() {
+    let header;
+    if (this.props.device.type === 'desktop') {
+      header = (
+        <HeaderDesktop />
+      )
+    } else {
+      header = (
+        <HeaderMobile />
+      )
+    }
+    return (
+      <div className={s.root}>{header}</div>
+    );
+  }
+}
+
+class HeaderDesktop extends Component {
+  render() {
+    return (
       <div className={s.container}>
         <Navigation className={s.nav} />
         <Link className={s.brand} to="/">
@@ -28,15 +47,33 @@ function Header() {
           <h1 className={s.bannerTitle}>Japanese test</h1>
           <p className={s.bannerDesc}>Improve your Japanese significantly with our free online practice tests</p>
         </div>
-        <h1>Material-UI</h1>
-        <h2>example project</h2>
-        <FlatButton label="Default" />
-        <FlatButton label="Primary" primary={true} />
-        <FlatButton label="Secondary" secondary={true} />
-        <FlatButton label="Disabled" disabled={true} />
       </div>
-    </div>
-  );
+    );
+  }
 }
 
-export default withStyles(s)(Header);
+class HeaderMobile extends Component {
+  render() {
+    return (
+      <div className={s.container}>
+        <Navigation className={s.nav} />
+        <Link className={s.brand} to="/">
+          <span className={s.brandTxt}>Your Company</span>
+        </Link>
+        <div className={s.banner}>
+          <h1 className={s.bannerTitle}>React</h1>
+          <p className={s.bannerDesc}>Complex web apps made easy</p>
+        </div>
+      </div>
+    );
+  }
+}
+
+function mapStateToProps(state) {
+  return {
+    device: state.device.device,
+    userAgent: state.device.userAgent,
+  };
+}
+
+export default connect(mapStateToProps)(withStyles(s)(Header));

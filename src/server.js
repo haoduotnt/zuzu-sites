@@ -30,10 +30,13 @@ import routes from './routes';
 import assets from './assets'; // eslint-disable-line import/no-unresolved
 import configureStore from './store/configureStore';
 import { setRuntimeVariable } from './actions/runtime';
+import { detectDevice } from './actions/device';
 import { port, auth } from './config';
 import facebookAuth from './core/auth/facebook';
 import googleAuth from './core/auth/google';
 import logger from './libs/logger';
+import MobileDetect from 'mobile-detect';
+import device from 'express-device';
 
 const app = express();
 
@@ -51,6 +54,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.use(device.capture());
 
 //
 // Authentication
@@ -93,8 +97,14 @@ app.get('*', async (req, res, next) => {
     const store = configureStore({
       user: req.user || null,
     }, {
-      cookie: req.headers.cookie,
+      cookie: req.cookies.id_token,
     });
+
+    const userAgent = new MobileDetect(req.headers['user-agent']);
+    store.dispatch(detectDevice({
+      device: req.device,
+      userAgent: userAgent,
+    }));
 
     store.dispatch(setRuntimeVariable({
       name: 'initialNow',
@@ -133,6 +143,7 @@ app.get('*', async (req, res, next) => {
     data.style = [...css].join('');
     data.script = assets.main.js;
     data.state = context.store.getState();
+    data.chunk = assets[route.chunk] && assets[route.chunk].js;
     const html = ReactDOM.renderToStaticMarkup(<Html {...data} />);
 
     res.status(route.status || 200);

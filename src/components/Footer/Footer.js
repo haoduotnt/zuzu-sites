@@ -7,14 +7,33 @@
  * LICENSE.txt file in the root directory of this source tree.
  */
 
-import React from 'react';
+import React, { Component, PropTypes } from 'react';
+import { connect } from 'react-redux'
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './Footer.css';
 import Link from '../Link';
 
-function Footer() {
-  return (
-    <div className={s.root}>
+class Footer extends Component {
+  render() {
+    let footer;
+    if (this.props.device.type === 'desktop') {
+      footer = (
+        <FooterDesktop />
+      )
+    } else {
+      footer = (
+        <FooterMobile />
+      )
+    }
+    return (
+      <div className={s.root}>{footer}</div>
+    );
+  }
+}
+
+class FooterDesktop extends Component {
+  render() {
+    return (
       <div className={s.container}>
         <span className={s.text}>© JTests</span>
         <span className={s.spacer}>·</span>
@@ -26,8 +45,33 @@ function Footer() {
         <span className={s.spacer}>·</span>
         <Link className={s.link} to="/privacy">Privacy Policy</Link>
       </div>
-    </div>
-  );
+    );
+  }
 }
 
-export default withStyles(s)(Footer);
+class FooterMobile extends Component {
+  render() {
+    return (
+      <div className={s.containerMobile}>
+        <span className={s.text}>© Your Company</span>
+        <br/>
+        <Link className={s.link} to="/">Home</Link>
+        <br/>
+        <Link className={s.link} to="/about">About us</Link>
+        <br/>
+        <Link className={s.link} to="/contact">Contact</Link>
+        <br/>
+        <Link className={s.link} to="/privacy">Privacy Policy</Link>
+      </div>
+    );
+  }
+}
+
+function mapStateToProps(state) {
+  return {
+    device: state.device.device,
+    userAgent: state.device.userAgent,
+  };
+}
+
+export default connect(mapStateToProps)(withStyles(s)(Footer));

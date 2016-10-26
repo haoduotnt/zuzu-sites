@@ -19,6 +19,8 @@ import React from 'react';
 import ReactDOM from 'react-dom/server';
 import UniversalRouter from 'universal-router';
 import PrettyError from 'pretty-error';
+import MobileDetect from 'mobile-detect';
+import device from 'express-device';
 import App from './components/App';
 import Html from './components/Html';
 import { ErrorPageWithoutStyle } from './routes/error/ErrorPage';
@@ -103,7 +105,7 @@ app.get('*', async (req, res, next) => {
     const userAgent = new MobileDetect(req.headers['user-agent']);
     store.dispatch(detectDevice({
       device: req.device,
-      userAgent: userAgent,
+      userAgent,
     }));
 
     store.dispatch(setRuntimeVariable({

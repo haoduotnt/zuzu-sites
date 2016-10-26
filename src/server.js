@@ -36,7 +36,9 @@ import { detectDevice } from './actions/device';
 import { port, auth } from './config';
 import facebookAuth from './core/auth/facebook';
 import googleAuth from './core/auth/google';
-import logger from './libs/logger';
+import logger from './core/logger';
+import MobileDetect from 'mobile-detect';
+import device from 'express-device';
 
 const app = express();
 

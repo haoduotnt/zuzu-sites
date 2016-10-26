@@ -1,5 +1,5 @@
 import { inspect } from 'util';
-import logger from '../../libs/logger';
+import logger from '../../core/logger';
 
 // Server side redux action logger
 export default function createLogger() {

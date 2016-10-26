@@ -13,10 +13,22 @@ import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './Header.css';
 import Link from '../Link';
 import Navigation from '../Navigation';
-import logoUrl from './logo-small.png';
-import FlatButton from 'material-ui/FlatButton';
+import AppBar from 'material-ui/AppBar';
+import Drawer from 'material-ui/Drawer';
+import MenuItem from 'material-ui/MenuItem';
+import RaisedButton from 'material-ui/RaisedButton';
 
 class Header extends Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {open: false};
+  }
+
+  handleToggle = () => this.setState({open: !this.state.open});
+
+  handleClose = () => this.setState({open: false});
+
   render() {
     let header;
     if (this.props.device.type === 'desktop') {
@@ -29,7 +41,22 @@ class Header extends Component {
       )
     }
     return (
-      <div className={s.root}>{header}</div>
+      <div>
+        <AppBar
+          title="Japanese quiz"
+          onLeftIconButtonTouchTap={this.handleToggle}
+          iconClassNameRight="muidocs-icon-navigation-expand-more"
+        />
+        <Drawer
+          docked={false}
+          width={200}
+          open={this.state.open}
+          onRequestChange={(open) => this.setState({open})}
+        >
+          <MenuItem onTouchTap={this.handleClose}>Menu Item</MenuItem>
+          <MenuItem onTouchTap={this.handleClose}>Menu Item 2</MenuItem>
+        </Drawer>
+      </div>
     );
   }
 }
@@ -39,12 +66,8 @@ class HeaderDesktop extends Component {
     return (
       <div className={s.container}>
         <Navigation className={s.nav} />
-        <Link className={s.brand} to="/">
-          <img src={logoUrl} width="38" height="38" alt="React" />
-          <span className={s.brandTxt}>JTests</span>
-        </Link>
         <div className={s.banner}>
-          <h1 className={s.bannerTitle}>Japanese test</h1>
+          <h1 className={s.bannerTitle}>Japanese quiz</h1>
           <p className={s.bannerDesc}>Improve your Japanese significantly with our free online practice tests</p>
         </div>
       </div>
@@ -57,12 +80,9 @@ class HeaderMobile extends Component {
     return (
       <div className={s.container}>
         <Navigation className={s.nav} />
-        <Link className={s.brand} to="/">
-          <span className={s.brandTxt}>Your Company</span>
-        </Link>
         <div className={s.banner}>
-          <h1 className={s.bannerTitle}>React</h1>
-          <p className={s.bannerDesc}>Complex web apps made easy</p>
+          <h1 className={s.bannerTitle}>Japanese quiz</h1>
+          <p className={s.bannerDesc}>Improve your Japanese significantly with our free online practice tests</p>
         </div>
       </div>
     );

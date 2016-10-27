@@ -30,16 +30,6 @@ class Header extends Component {
   handleClose = () => this.setState({open: false});
 
   render() {
-    let header;
-    if (this.props.device.type === 'desktop') {
-      header = (
-        <HeaderDesktop />
-      )
-    } else {
-      header = (
-        <HeaderMobile />
-      )
-    }
     return (
       <div>
         <AppBar
@@ -56,34 +46,6 @@ class Header extends Component {
           <MenuItem onTouchTap={this.handleClose}>Menu Item</MenuItem>
           <MenuItem onTouchTap={this.handleClose}>Menu Item 2</MenuItem>
         </Drawer>
-      </div>
-    );
-  }
-}
-
-class HeaderDesktop extends Component {
-  render() {
-    return (
-      <div className={s.container}>
-        <Navigation className={s.nav} />
-        <div className={s.banner}>
-          <h1 className={s.bannerTitle}>Japanese quiz</h1>
-          <p className={s.bannerDesc}>Improve your Japanese significantly with our free online practice tests</p>
-        </div>
-      </div>
-    );
-  }
-}
-
-class HeaderMobile extends Component {
-  render() {
-    return (
-      <div className={s.container}>
-        <Navigation className={s.nav} />
-        <div className={s.banner}>
-          <h1 className={s.bannerTitle}>Japanese quiz</h1>
-          <p className={s.bannerDesc}>Improve your Japanese significantly with our free online practice tests</p>
-        </div>
       </div>
     );
   }

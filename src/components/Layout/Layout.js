@@ -13,19 +13,16 @@ import s from './Layout.css';
 import Header from '../Header';
 import Feedback from '../Feedback';
 import Footer from '../Footer';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 injectTapEventPlugin();
 
 function Layout({ children }) {
   return (
-    <MuiThemeProvider>
-      <div>
-        <Header />
-        {React.Children.only(children)}
-        <Footer />
-      </div>
-    </MuiThemeProvider>
+    <div>
+      <Header />
+      {React.Children.only(children)}
+      <Footer />
+    </div>
   );
 }
 

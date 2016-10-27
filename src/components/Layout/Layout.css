@@ -25,6 +25,13 @@ html {
   line-height: 1.375; /* ~22px */
 }
 
+button,
+html [type='button'],
+[type='reset'],
+[type='submit'] {
+  -webkit-appearance: none;
+}
+
 a {
   color: #0074c2;
 }

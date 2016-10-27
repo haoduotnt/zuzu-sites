@@ -21,6 +21,8 @@ import UniversalRouter from 'universal-router';
 import PrettyError from 'pretty-error';
 import MobileDetect from 'mobile-detect';
 import device from 'express-device';
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import App from './components/App';
 import Html from './components/Html';
 import { ErrorPageWithoutStyle } from './routes/error/ErrorPage';
@@ -137,9 +139,12 @@ app.get('*', async (req, res, next) => {
       res.redirect(route.status || 302, route.redirect);
       return;
     }
-
+    const muiTheme = getMuiTheme({ userAgent: req.headers['user-agent'] });
     const data = { ...route };
-    data.children = ReactDOM.renderToString(<App context={context}>{route.component}</App>);
+    data.children = ReactDOM.renderToString(
+      <App context={context}>
+        <MuiThemeProvider muiTheme={muiTheme}>{route.component}</MuiThemeProvider>
+      </App>);
     data.style = [...css].join('');
     data.script = assets.main.js;
     data.state = context.store.getState();

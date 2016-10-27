@@ -13,57 +13,39 @@ import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './Header.css';
 import Link from '../Link';
 import Navigation from '../Navigation';
-import logoUrl from './logo-small.png';
-import FlatButton from 'material-ui/FlatButton';
+import AppBar from 'material-ui/AppBar';
+import Drawer from 'material-ui/Drawer';
+import MenuItem from 'material-ui/MenuItem';
+import RaisedButton from 'material-ui/RaisedButton';
 
 class Header extends Component {
-  render() {
-    let header;
-    if (this.props.device.type === 'desktop') {
-      header = (
-        <HeaderDesktop />
-      )
-    } else {
-      header = (
-        <HeaderMobile />
-      )
-    }
-    return (
-      <div className={s.root}>{header}</div>
-    );
-  }
-}
 
-class HeaderDesktop extends Component {
-  render() {
-    return (
-      <div className={s.container}>
-        <Navigation className={s.nav} />
-        <Link className={s.brand} to="/">
-          <img src={logoUrl} width="38" height="38" alt="React" />
-          <span className={s.brandTxt}>Your Company</span>
-        </Link>
-        <div className={s.banner}>
-          <h1 className={s.bannerTitle}>React</h1>
-          <p className={s.bannerDesc}>Complex web apps made easy</p>
-        </div>
-      </div>
-    );
+  constructor(props) {
+    super(props);
+    this.state = {open: false};
   }
-}
 
-class HeaderMobile extends Component {
+  handleToggle = () => this.setState({open: !this.state.open});
+
+  handleClose = () => this.setState({open: false});
+
   render() {
     return (
-      <div className={s.container}>
-        <Navigation className={s.nav} />
-        <Link className={s.brand} to="/">
-          <span className={s.brandTxt}>Your Company</span>
-        </Link>
-        <div className={s.banner}>
-          <h1 className={s.bannerTitle}>React</h1>
-          <p className={s.bannerDesc}>Complex web apps made easy</p>
-        </div>
+      <div>
+        <AppBar
+          title="React Start Kit"
+          onLeftIconButtonTouchTap={this.handleToggle}
+          iconClassNameRight="muidocs-icon-navigation-expand-more"
+        />
+        <Drawer
+          docked={false}
+          width={200}
+          open={this.state.open}
+          onRequestChange={(open) => this.setState({open})}
+        >
+          <MenuItem onTouchTap={this.handleClose}>Menu Item</MenuItem>
+          <MenuItem onTouchTap={this.handleClose}>Menu Item 2</MenuItem>
+        </Drawer>
       </div>
     );
   }

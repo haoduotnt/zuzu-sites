@@ -17,6 +17,29 @@ import AppBar from 'material-ui/AppBar';
 import Drawer from 'material-ui/Drawer';
 import MenuItem from 'material-ui/MenuItem';
 import RaisedButton from 'material-ui/RaisedButton';
+import IconButton from 'material-ui/IconButton';
+import IconMenu from 'material-ui/IconMenu';
+import FlatButton from 'material-ui/FlatButton';
+import Toggle from 'material-ui/Toggle';
+import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
+import NavigationClose from 'material-ui/svg-icons/navigation/close';
+
+const OptionMenu = (props) => (
+  <IconMenu
+    {...props}
+    iconButtonElement={
+      <IconButton><MoreVertIcon /></IconButton>
+    }
+    targetOrigin={{horizontal: 'right', vertical: 'top'}}
+    anchorOrigin={{horizontal: 'right', vertical: 'top'}}
+  >
+    <MenuItem primaryText="Refresh" />
+    <MenuItem primaryText="Help" />
+    <MenuItem primaryText="Sign out" />
+  </IconMenu>
+);
+
+OptionMenu.muiName = 'IconMenu';
 
 class Header extends Component {
 
@@ -36,6 +59,7 @@ class Header extends Component {
           title="React Start Kit"
           onLeftIconButtonTouchTap={this.handleToggle}
           iconClassNameRight="muidocs-icon-navigation-expand-more"
+          iconElementRight={<OptionMenu />}
         />
         <Drawer
           docked={false}

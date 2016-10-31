@@ -12,7 +12,7 @@ import Kanji from './Kanji';
 
 export default {
 
-  path: '/kanji/:kIndex',
+  path: '/japanese/kanji/:kIndex',
 
   async action({ params }) {
     const kIndex = params.kIndex;

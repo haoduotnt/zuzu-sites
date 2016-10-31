@@ -11,13 +11,27 @@ import React, { PropTypes } from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import Layout from '../../components/Layout';
 import s from './Home.css';
+import RaisedButton from 'material-ui/RaisedButton';
+import Link from './../../components/Link';
+
+const style = {
+  width: 280,
+  margin: 5,
+};
 
 function Home({ news }) {
   return (
     <Layout>
       <div className={s.root}>
         <div className={s.container}>
-          <h1 className={s.title}>Japanese test</h1>
+          <center>
+            <h1 className={s.title}>Japanese test</h1>
+            <Link className={s.link} to="/japanese/kanji"><RaisedButton label="漢字" primary={true} style={style}/></Link>
+            <br/>
+            <Link className={s.link} to="/japanese/grammar"><RaisedButton label="文法" primary={true} style={style}/></Link>
+            <br/>
+            <Link className={s.link} to="/japanese/quiz"><RaisedButton label="学習" primary={true} style={style}/></Link>
+          </center>
         </div>
       </div>
     </Layout>

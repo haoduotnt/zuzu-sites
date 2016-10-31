@@ -12,7 +12,7 @@ import Jlpt from './Jlpt';
 
 export default {
 
-  path: '/jlpt/:category/:jlptLevel',
+  path: '/japanese/jlpt/:category/:jlptLevel',
 
   async action({ params }) {
     const category = params.category;

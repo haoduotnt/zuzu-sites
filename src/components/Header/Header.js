@@ -41,6 +41,16 @@ const OptionMenu = (props) => (
 
 OptionMenu.muiName = 'IconMenu';
 
+class LoginMenu extends Component {
+  static muiName = 'FlatButton';
+
+  render() {
+    return (
+      <Link to="/login"><FlatButton {...this.props} label="Login" /></Link>
+    );
+  }
+}
+
 class Header extends Component {
 
   constructor(props) {
@@ -59,7 +69,7 @@ class Header extends Component {
           title="React Start Kit"
           onLeftIconButtonTouchTap={this.handleToggle}
           iconClassNameRight="muidocs-icon-navigation-expand-more"
-          iconElementRight={<OptionMenu />}
+          iconElementRight={this.props.user ? <OptionMenu /> : <LoginMenu />}
         />
         <Drawer
           docked={false}
@@ -79,6 +89,7 @@ function mapStateToProps(state) {
   return {
     device: state.device.device,
     userAgent: state.device.userAgent,
+    user: state.user,
   };
 }
 

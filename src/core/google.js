@@ -39,6 +39,7 @@ passport.use(new GoogleStrategy({
         done(null, {
           id: profile.id,
           email: profile.email,
+          picture: profile._json.image.url,
         });
       } else {
         const user = await User.create({
@@ -65,6 +66,7 @@ passport.use(new GoogleStrategy({
         done(null, {
           id: user.id,
           email: user.email,
+          picture: profile._json.image.url,
         });
       }
     } else {
@@ -85,6 +87,7 @@ passport.use(new GoogleStrategy({
         done(null, {
           id: user.id,
           email: user.email,
+          picture: profile._json.image.url,
         });
       } else {
         let user = await User.findOne({ where: { email: profile._json.email } });
@@ -94,6 +97,7 @@ passport.use(new GoogleStrategy({
           done(null, {
             id: user.id,
             email: user.email,
+            picture: profile._json.image.url,
           });
         } else {
           user = await User.create({
@@ -120,6 +124,7 @@ passport.use(new GoogleStrategy({
           done(null, {
             id: user.id,
             email: user.email,
+            picture: profile._json.image.url,
           });
         }
       }

@@ -23,6 +23,13 @@ import FlatButton from 'material-ui/FlatButton';
 import Toggle from 'material-ui/Toggle';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import NavigationClose from 'material-ui/svg-icons/navigation/close';
+import {List, ListItem} from 'material-ui/List';
+import ContentInbox from 'material-ui/svg-icons/content/inbox';
+import ActionGrade from 'material-ui/svg-icons/action/grade';
+import ContentSend from 'material-ui/svg-icons/content/send';
+import ContentDrafts from 'material-ui/svg-icons/content/drafts';
+import Avatar from 'material-ui/Avatar';
+import Subheader from 'material-ui/Subheader';
 
 const OptionMenu = (props) => (
   <IconMenu
@@ -63,6 +70,22 @@ class Header extends Component {
   handleClose = () => this.setState({open: false});
 
   render() {
+    var profile;
+    if (this.props.user) {
+      profile = (
+        <ListItem
+          primaryText={this.props.user.email}
+          leftAvatar={<Avatar src={this.props.user.picture} />}
+        />
+      )
+    } else {
+      profile = (
+        <ListItem
+          primaryText="Anonymous"
+          leftAvatar={<Avatar src="assets/anonymous.svg" />}
+        />
+      )
+    }
     return (
       <div>
         <AppBar
@@ -73,12 +96,18 @@ class Header extends Component {
         />
         <Drawer
           docked={false}
-          width={200}
+          width={250}
           open={this.state.open}
           onRequestChange={(open) => this.setState({open})}
         >
-          <MenuItem onTouchTap={this.handleClose}>Menu Item</MenuItem>
-          <MenuItem onTouchTap={this.handleClose}>Menu Item 2</MenuItem>
+          {profile}
+          <List>
+            <Subheader>日本語を学ぶ</Subheader>
+            <ListItem primaryText="漢字" leftIcon={<ContentInbox />} />
+            <ListItem primaryText="文法" leftIcon={<ActionGrade />} />
+            <ListItem primaryText="単語" leftIcon={<ContentSend />} />
+            <ListItem primaryText="学習" leftIcon={<ContentInbox />} />
+          </List>
         </Drawer>
       </div>
     );

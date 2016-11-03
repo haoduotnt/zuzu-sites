@@ -17,6 +17,46 @@ import AppBar from 'material-ui/AppBar';
 import Drawer from 'material-ui/Drawer';
 import MenuItem from 'material-ui/MenuItem';
 import RaisedButton from 'material-ui/RaisedButton';
+import IconButton from 'material-ui/IconButton';
+import IconMenu from 'material-ui/IconMenu';
+import FlatButton from 'material-ui/FlatButton';
+import Toggle from 'material-ui/Toggle';
+import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
+import NavigationClose from 'material-ui/svg-icons/navigation/close';
+import {List, ListItem} from 'material-ui/List';
+import ContentInbox from 'material-ui/svg-icons/content/inbox';
+import ActionGrade from 'material-ui/svg-icons/action/grade';
+import ContentSend from 'material-ui/svg-icons/content/send';
+import ContentDrafts from 'material-ui/svg-icons/content/drafts';
+import Avatar from 'material-ui/Avatar';
+import Subheader from 'material-ui/Subheader';
+
+const OptionMenu = (props) => (
+  <IconMenu
+    {...props}
+    iconButtonElement={
+      <IconButton><MoreVertIcon /></IconButton>
+    }
+    targetOrigin={{horizontal: 'right', vertical: 'top'}}
+    anchorOrigin={{horizontal: 'right', vertical: 'top'}}
+  >
+    <MenuItem primaryText="Refresh" />
+    <MenuItem primaryText="Help" />
+    <MenuItem primaryText="Sign out" />
+  </IconMenu>
+);
+
+OptionMenu.muiName = 'IconMenu';
+
+class LoginMenu extends Component {
+  static muiName = 'FlatButton';
+
+  render() {
+    return (
+      <Link to="/login"><FlatButton {...this.props} label="Login" /></Link>
+    );
+  }
+}
 
 class Header extends Component {
 
@@ -30,21 +70,44 @@ class Header extends Component {
   handleClose = () => this.setState({open: false});
 
   render() {
+    var profile;
+    if (this.props.user) {
+      profile = (
+        <ListItem
+          primaryText={this.props.user.email}
+          leftAvatar={<Avatar src={this.props.user.picture} />}
+        />
+      )
+    } else {
+      profile = (
+        <ListItem
+          primaryText="Anonymous"
+          leftAvatar={<Avatar src="assets/anonymous.svg" />}
+        />
+      )
+    }
     return (
       <div>
         <AppBar
           title="Japanese quiz"
           onLeftIconButtonTouchTap={this.handleToggle}
           iconClassNameRight="muidocs-icon-navigation-expand-more"
+          iconElementRight={this.props.user ? <OptionMenu /> : <LoginMenu />}
         />
         <Drawer
           docked={false}
-          width={200}
+          width={250}
           open={this.state.open}
           onRequestChange={(open) => this.setState({open})}
         >
-          <MenuItem onTouchTap={this.handleClose}>Menu Item</MenuItem>
-          <MenuItem onTouchTap={this.handleClose}>Menu Item 2</MenuItem>
+          {profile}
+          <List>
+            <Subheader>日本語を学ぶ</Subheader>
+            <ListItem primaryText="漢字" leftIcon={<ContentInbox />} />
+            <ListItem primaryText="文法" leftIcon={<ActionGrade />} />
+            <ListItem primaryText="単語" leftIcon={<ContentSend />} />
+            <ListItem primaryText="学習" leftIcon={<ContentInbox />} />
+          </List>
         </Drawer>
       </div>
     );
@@ -55,6 +118,7 @@ function mapStateToProps(state) {
   return {
     device: state.device.device,
     userAgent: state.device.userAgent,
+    user: state.user,
   };
 }
 

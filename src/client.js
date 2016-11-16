@@ -154,7 +154,7 @@ async function onLocationChange(location) {
     ReactDOM.render(
       <App context={context}><MuiThemeProvider>{route.component}</MuiThemeProvider></App>,
       container,
-      () => onRenderComplete(route, location)
+      () => onRenderComplete(route, location),
     );
   } catch (error) {
     console.error(error); // eslint-disable-line no-console

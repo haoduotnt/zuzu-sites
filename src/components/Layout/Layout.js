@@ -7,7 +7,7 @@
  * LICENSE.txt file in the root directory of this source tree.
  */
 
-import React, { Children, PropTypes } from 'react';
+import React, { PropTypes } from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './Layout.css';
 import Header from '../Header';
@@ -16,18 +16,21 @@ import Footer from '../Footer';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 injectTapEventPlugin();
 
-function Layout({ children }) {
-  return (
-    <div>
-      <Header />
-      {React.Children.only(children)}
-      <Footer />
-    </div>
-  );
-}
+class Layout extends React.Component {
+  static propTypes = {
+    children: PropTypes.node.isRequired,
+  };
 
-Layout.propTypes = {
-  children: PropTypes.element.isRequired,
-};
+  render() {
+    return (
+      <div>
+        <Header />
+        {this.props.children}
+        <Feedback />
+        <Footer />
+      </div>
+    );
+  }
+}
 
 export default withStyles(s)(Layout);

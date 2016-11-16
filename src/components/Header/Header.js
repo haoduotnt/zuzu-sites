@@ -76,4 +76,10 @@ class Header extends Component {
   }
 }
 
-export default (withStyles(s)(Header));
+function mapStateToProps(state) {
+  return {
+    user: state.user,
+  };
+}
+
+export default connect(mapStateToProps)(withStyles(s)(Header));

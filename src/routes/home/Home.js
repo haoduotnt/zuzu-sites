@@ -9,7 +9,6 @@
 
 import React, { PropTypes } from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
-import Layout from '../../components/Layout';
 import s from './Home.css';
 import RaisedButton from 'material-ui/RaisedButton';
 import Link from './../../components/Link';
@@ -19,9 +18,17 @@ const style = {
   margin: 5,
 };
 
-function Home({ news }) {
-  return (
-    <Layout>
+class Home extends React.Component {
+  static propTypes = {
+    news: PropTypes.arrayOf(PropTypes.shape({
+      title: PropTypes.string.isRequired,
+      link: PropTypes.string.isRequired,
+      contentSnippet: PropTypes.string,
+    })).isRequired,
+  };
+
+  render() {
+    return (
       <div className={s.root}>
         <div className={s.container}>
           <center>
@@ -34,16 +41,8 @@ function Home({ news }) {
           </center>
         </div>
       </div>
-    </Layout>
-  );
+    );
+  }
 }
-
-Home.propTypes = {
-  news: PropTypes.arrayOf(PropTypes.shape({
-    title: PropTypes.string.isRequired,
-    link: PropTypes.string.isRequired,
-    contentSnippet: PropTypes.string,
-  })).isRequired,
-};
 
 export default withStyles(s)(Home);

@@ -8,6 +8,7 @@
  */
 
 import React, { Component, PropTypes } from 'react';
+import { connect } from 'react-redux'
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './Header.css';
 import Link from '../Link';
@@ -60,7 +61,6 @@ class Header extends Component {
         <AppBar
           title="Japanese quiz"
           onLeftIconButtonTouchTap={this.handleToggle}
-          iconClassNameRight="muidocs-icon-navigation-expand-more"
           iconElementRight={this.props.user ? <OptionMenu /> : <LoginMenu />}
         />
         <Drawer

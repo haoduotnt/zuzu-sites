@@ -12,7 +12,6 @@ import { connect } from 'react-redux'
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './Header.css';
 import Link from '../Link';
-import Menu from '../Menu';
 import AppBar from 'material-ui/AppBar';
 import Drawer from 'material-ui/Drawer';
 import MenuItem from 'material-ui/MenuItem';
@@ -20,6 +19,15 @@ import IconButton from 'material-ui/IconButton';
 import IconMenu from 'material-ui/IconMenu';
 import FlatButton from 'material-ui/FlatButton';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
+
+import {List, ListItem} from 'material-ui/List';
+import Subheader from 'material-ui/Subheader';
+import ActionHome from 'material-ui/svg-icons/action/home';
+import ContentInbox from 'material-ui/svg-icons/content/inbox';
+import ActionGrade from 'material-ui/svg-icons/action/grade';
+import ContentSend from 'material-ui/svg-icons/content/send';
+import ContentDrafts from 'material-ui/svg-icons/content/drafts';
+import Avatar from 'material-ui/Avatar';
 
 const OptionMenu = (props) => (
   <IconMenu
@@ -56,6 +64,22 @@ class Header extends Component {
   handleClose = () => this.setState({open: false});
 
   render() {
+    var profile;
+    if (this.props.user) {
+      profile = (
+        <ListItem
+          primaryText={this.props.user.email}
+          leftAvatar={<Avatar src={this.props.user.picture} />}
+        />
+      )
+    } else {
+      profile = (
+        <ListItem
+          primaryText="Anonymous"
+          leftAvatar={<Avatar src="assets/anonymous.svg" />}
+        />
+      )
+    }
     return (
       <div>
         <AppBar
@@ -69,7 +93,15 @@ class Header extends Component {
           open={this.state.open}
           onRequestChange={(open) => this.setState({open})}
         >
-          <Menu />
+          {profile}
+          <List>
+            <Link to="/"><ListItem primaryText="ホーム" leftIcon={<ActionHome />} /></Link>
+            <Subheader>日本語を学ぶ</Subheader>
+            <ListItem primaryText="漢字" leftIcon={<ContentInbox />} />
+            <ListItem primaryText="文法" leftIcon={<ActionGrade />} />
+            <ListItem primaryText="単語" leftIcon={<ContentSend />} />
+            <ListItem primaryText="学習" leftIcon={<ContentInbox />} />
+          </List>
         </Drawer>
       </div>
     );

@@ -20,7 +20,7 @@ import IconMenu from 'material-ui/IconMenu';
 import FlatButton from 'material-ui/FlatButton';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 
-import {List, ListItem} from 'material-ui/List';
+import Divider from 'material-ui/Divider';
 import Subheader from 'material-ui/Subheader';
 import ActionHome from 'material-ui/svg-icons/action/home';
 import ContentInbox from 'material-ui/svg-icons/content/inbox';
@@ -28,6 +28,8 @@ import ActionGrade from 'material-ui/svg-icons/action/grade';
 import ContentSend from 'material-ui/svg-icons/content/send';
 import ContentDrafts from 'material-ui/svg-icons/content/drafts';
 import Avatar from 'material-ui/Avatar';
+
+import profileUrl from './anonymous.svg';
 
 const OptionMenu = (props) => (
   <IconMenu
@@ -67,16 +69,18 @@ class Header extends Component {
     var profile;
     if (this.props.user) {
       profile = (
-        <ListItem
+        <MenuItem
+          onTouchTap={this.handleClose}
           primaryText={this.props.user.email}
-          leftAvatar={<Avatar src={this.props.user.picture} />}
+          leftIcon={<Avatar src={this.props.user.picture} />}
         />
       )
     } else {
       profile = (
-        <ListItem
+        <MenuItem
+          onTouchTap={this.handleClose}
           primaryText="Anonymous"
-          leftAvatar={<Avatar src="assets/anonymous.svg" />}
+          leftIcon={<Avatar src={profileUrl} />}
         />
       )
     }
@@ -94,14 +98,14 @@ class Header extends Component {
           onRequestChange={(open) => this.setState({open})}
         >
           {profile}
-          <List>
-            <Link to="/"><ListItem primaryText="ホーム" leftIcon={<ActionHome />} /></Link>
-            <Subheader>日本語を学ぶ</Subheader>
-            <ListItem primaryText="漢字" leftIcon={<ContentInbox />} />
-            <ListItem primaryText="文法" leftIcon={<ActionGrade />} />
-            <ListItem primaryText="単語" leftIcon={<ContentSend />} />
-            <ListItem primaryText="学習" leftIcon={<ContentInbox />} />
-          </List>
+          <Divider />
+          <Link to="/"><MenuItem onTouchTap={this.handleClose} primaryText="ホーム" leftIcon={<ActionHome />} /></Link>
+          <Divider />
+          <Subheader>日本語を学ぶ</Subheader>
+          <Link to="/japanese/kanji"><MenuItem onTouchTap={this.handleClose} primaryText="漢字" leftIcon={<ContentInbox />} /></Link>
+          <Link to="/japanese/grammar"><MenuItem onTouchTap={this.handleClose} primaryText="文法" leftIcon={<ActionGrade />} /></Link>
+          <Link to="/japanese/word"><MenuItem onTouchTap={this.handleClose} primaryText="単語" leftIcon={<ContentSend />} /></Link>
+          <Link to="/japanese/study"><MenuItem onTouchTap={this.handleClose} primaryText="学習" leftIcon={<ContentInbox />} /></Link>
         </Drawer>
       </div>
     );

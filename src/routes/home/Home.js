@@ -30,7 +30,7 @@ class Home extends React.Component {
             <br />
             <Link className={s.link} to="/japanese/grammar"><RaisedButton label="文法" primary style={style} /></Link>
             <br />
-            <Link className={s.link} to="/japanese/quiz"><RaisedButton label="学習" primary style={style} /></Link>
+            <Link className={s.link} to="/japanese/study"><RaisedButton label="学習" primary style={style} /></Link>
           </center>
         </div>
       </div>

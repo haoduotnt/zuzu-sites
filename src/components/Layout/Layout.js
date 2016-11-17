@@ -11,10 +11,7 @@ import React, { PropTypes } from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './Layout.css';
 import Header from '../Header';
-import Feedback from '../Feedback';
 import Footer from '../Footer';
-import injectTapEventPlugin from 'react-tap-event-plugin';
-injectTapEventPlugin();
 
 class Layout extends React.Component {
   static propTypes = {
@@ -26,7 +23,6 @@ class Layout extends React.Component {
       <div>
         <Header />
         {this.props.children}
-        <Feedback />
         <Footer />
       </div>
     );

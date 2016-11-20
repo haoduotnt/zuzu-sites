@@ -9,16 +9,30 @@
 
 import React from 'react';
 import Kanji from './Kanji';
+import fetch from '../../core/fetch';
 
 export default {
 
-  path: '/japanese/kanji/:kIndex',
+  path: '/japanese/kanji/:code',
 
   async action({ params }) {
-    const kIndex = params.kIndex;
+    const code = params.code;
+    const resp = await fetch('/graphql', {
+      method: 'post',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        query: `{kanji(code:${code}){code,meaning}}`,
+      }),
+      credentials: 'include',
+    });
+    const { data } = await resp.json();
+    if (!data) throw new Error('Failed to load the kanji.');
     return {
       title: 'React Starter Kit',
-      component: <Kanji index={kIndex} />,
+      component: <Kanji code={code} kanji={data} />,
     };
   },
 

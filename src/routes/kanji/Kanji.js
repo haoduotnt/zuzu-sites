@@ -12,23 +12,22 @@ import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import Layout from '../../components/Layout';
 import s from './Kanji.css';
 
-function Kanji({ index }) {
-  return (
-    <Layout>
-      <div className={s.root}>
-        <div className={s.container}>
-          <h1 className={s.title}>Kanji</h1>
-          <ul className={s.news}>
-            Kanji {index}
-          </ul>
+class Kanji extends React.Component {
+  render() {
+    const { code, kanji } = this.props;
+    return (
+      <Layout>
+        <div className={s.root}>
+          <div className={s.container}>
+            <h1 className={s.title}>Kanji</h1>
+            <ul className={s.news}>
+              Kanji {String.fromCharCode(code)}
+            </ul>
+          </div>
         </div>
-      </div>
-    </Layout>
-  );
+      </Layout>
+    );
+  }
 }
-
-Kanji.propTypes = {
-  index: PropTypes.string,
-};
 
 export default withStyles(s)(Kanji);

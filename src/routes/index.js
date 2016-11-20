@@ -24,6 +24,7 @@ export default {
 
     require('./jlpt').default,
     require('./kanji').default,
+    require('./kanjis').default,
 
     // place new routes before...
     require('./content').default,

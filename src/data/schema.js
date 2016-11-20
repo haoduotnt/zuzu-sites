@@ -15,6 +15,8 @@ import {
 import me from './queries/me';
 import content from './queries/content';
 import news from './queries/news';
+import kanji from './queries/kanji';
+import kanjis from './queries/kanjis';
 
 const schema = new Schema({
   query: new ObjectType({
@@ -23,6 +25,8 @@ const schema = new Schema({
       me,
       content,
       news,
+      kanjis,
+      kanji,
     },
   }),
 });

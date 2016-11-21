@@ -7,14 +7,7 @@
  * LICENSE.txt file in the root directory of this source tree.
  */
 
-import fs from 'fs';
-import { join } from 'path';
-import Promise from 'bluebird';
-import fm from 'front-matter';
-import MarkdownIt from 'markdown-it';
-
 import {
-  GraphQLString as StringType,
   GraphQLInt as IntType,
   GraphQLNonNull as NonNull,
 } from 'graphql';
@@ -22,7 +15,7 @@ import {
 import fetch from '../../core/fetch';
 import KanjiType from '../types/KanjiType';
 
-const url = 'http://localhost:9000/api/v1/kanjis';
+const url = 'http://127.0.0.1:9000/api/v1/kanjis';
 
 let item;
 let lastFetchTask;
@@ -37,17 +30,17 @@ const kanji = {
     if (lastFetchTask) {
       return lastFetchTask;
     }
-    let requestLink = `${url}/${code}`;
+    const requestLink = `${url}/${code}`;
     if ((new Date() - lastFetchTime) > 1000 * 60 * 10 /* 10 mins */) {
       lastFetchTime = new Date();
       lastFetchTask = fetch(requestLink, {
-          method: 'GET',
-          headers: {
-            'X-Clacks-Overhead': 'http://jtests.com',
-            'X-Parse-Application-Id': 'xxx',
-            'X-Parse-REST-API-Key': 'xxx',
-          },
-        })
+        method: 'GET',
+        headers: {
+          'X-Clacks-Overhead': 'http://jtests.com',
+          'X-Parse-Application-Id': 'xxx',
+          'X-Parse-REST-API-Key': 'xxx',
+        },
+      })
         .then(response => response.json())
         .then(data => {
           if (data) {

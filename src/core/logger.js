@@ -1,10 +1,9 @@
-"use strict";
 
-var path = require('path');
-var fs = require('fs');
-var log4js = require('log4js');
+const path = require('path');
+const fs = require('fs');
+const log4js = require('log4js');
 
-var logDir = path.join(path.dirname(path.resolve('server.js')), 'logs');
+const logDir = path.join(path.dirname(path.resolve('server.js')), 'logs');
 
 try {
   if (!fs.statSync(logDir).isDirectory()) {
@@ -18,15 +17,14 @@ try {
 log4js.configure({
   appenders: [
     { type: 'file', filename: 'system.log', category: 'info' },
-    { type: 'file', filename: 'error.log',  category: 'error' }
-  ]
+    { type: 'file', filename: 'error.log', category: 'error' },
+  ],
 }, { cwd: logDir });
 
-exports.info = function(msg) {
-  console.log(msg);
+exports.info = function info(msg) {
   log4js.getLogger('info').info(msg);
 };
 
-exports.error = function(msg) {
+exports.error = function error(msg) {
   log4js.getLogger('error').error(msg);
 };

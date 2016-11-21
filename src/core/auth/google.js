@@ -19,7 +19,7 @@ const googleAuth = app => {
         'https://www.googleapis.com/auth/plus.profile.emails.read',
       ],
       session: false,
-    })
+    }),
   );
 
   app.get('/login/google/return',
@@ -36,7 +36,7 @@ const googleAuth = app => {
       const token = jwt.sign(user, auth.jwt.secret, { expiresIn });
       res.cookie('id_token', token, { maxAge: 1000 * expiresIn, httpOnly: true });
       res.redirect('/');
-    }
+    },
   );
 };
 

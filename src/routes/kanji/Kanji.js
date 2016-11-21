@@ -7,25 +7,27 @@
  * LICENSE.txt file in the root directory of this source tree.
  */
 
-import React, { PropTypes } from 'react';
+import React from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
-import Layout from '../../components/Layout';
 import s from './Kanji.css';
 
 class Kanji extends React.Component {
+  static propTypes = {
+    code: React.PropTypes.number,
+    kanji: React.PropTypes.object,
+  }
+
   render() {
-    const { code, kanji } = this.props;
+    const { code } = this.props;
     return (
-      <Layout>
-        <div className={s.root}>
-          <div className={s.container}>
-            <h1 className={s.title}>Kanji</h1>
-            <ul className={s.news}>
-              Kanji {String.fromCharCode(code)}
-            </ul>
-          </div>
+      <div className={s.root}>
+        <div className={s.container}>
+          <h1 style={{ fontSize: 72 }}><b>{String.fromCharCode(code)}</b></h1>
+          <ul className={s.news}>
+            Kanji {String.fromCharCode(code)}
+          </ul>
         </div>
-      </Layout>
+      </div>
     );
   }
 }

@@ -17,8 +17,7 @@ export default {
 
   path: '/japanese/kanji',
 
-  async action({ params }) {
-    const kIndex = params.kIndex;
+  async action() {
     const resp = await fetch('/graphql', {
       method: 'post',
       headers: {
@@ -39,7 +38,7 @@ export default {
     }
     return {
       title: 'React Starter Kit',
-      component: <Layout><Kanjis index={kIndex} kanjis={data.kanjis} /></Layout>,
+      component: <Layout><Kanjis kanjis={data.kanjis} /></Layout>,
     };
   },
 

@@ -13,7 +13,7 @@ import { auth } from '../../config';
 
 const facebookAuth = app => {
   app.get('/login/facebook',
-    passport.authenticate('facebook', { scope: ['email', 'user_location'], session: false })
+    passport.authenticate('facebook', { scope: ['email', 'user_location'], session: false }),
   );
 
   app.get('/login/facebook/return',
@@ -25,7 +25,7 @@ const facebookAuth = app => {
       const token = jwt.sign(req.user, auth.jwt.secret, { expiresIn });
       res.cookie('id_token', token, { maxAge: 1000 * expiresIn, httpOnly: true });
       res.redirect('/');
-    }
+    },
   );
 };
 

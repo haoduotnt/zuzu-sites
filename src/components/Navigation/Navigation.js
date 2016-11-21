@@ -20,11 +20,11 @@ class Navigation extends Component {
     if (this.props.user) {
       navigation = (
         <div>Welcome {this.props.user.email}</div>
-      )
+      );
     } else {
       navigation = (
         <Link className={s.link} to="/login">Log in</Link>
-      )
+      );
     }
     return (
       <div className={cx(s.root, this.props.className)} role="navigation">

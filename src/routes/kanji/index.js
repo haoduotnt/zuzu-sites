@@ -10,6 +10,8 @@
 import React from 'react';
 import Kanji from './Kanji';
 import fetch from '../../core/fetch';
+import Layout from '../../components/Layout';
+import NotFound from '../notFound/NotFound';
 
 export default {
 
@@ -29,10 +31,15 @@ export default {
       credentials: 'include',
     });
     const { data } = await resp.json();
-    if (!data) throw new Error('Failed to load the kanji.');
+    if (!data) {
+      return {
+        title: 'Kanji',
+        component: <Layout><NotFound /></Layout>,
+      };
+    }
     return {
-      title: 'React Starter Kit',
-      component: <Kanji code={code} kanji={data} />,
+      title: `Kanji ${data.code}`,
+      component: <Layout><Kanji code={code} kanji={data} /></Layout>,
     };
   },
 

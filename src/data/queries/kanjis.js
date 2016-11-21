@@ -26,16 +26,18 @@ const kanjis = {
 
     if ((new Date() - lastFetchTime) > 1000 * 60 * 10 /* 10 mins */) {
       lastFetchTime = new Date();
-      lastFetchTask = fetch(url,{
-          method: 'GET',
-          headers: {
-            'X-Clacks-Overhead': 'http://jtests.com',
-            'X-Parse-Application-Id': 'xxx',
-            'X-Parse-REST-API-Key': 'xxx',
-          },
-        })
+      lastFetchTask = fetch(url, {
+        method: 'GET',
+        headers: {
+          'X-Clacks-Overhead': 'http://jtests.com',
+          'X-Parse-Application-Id': 'xxx',
+          'X-Parse-REST-API-Key': 'xxx',
+        },
+      })
         .then(response => response.json())
         .then(data => {
+          /* eslint no-underscore-dangle: ["error", { "allow": ["_embedded"] }]*/
+
           if (data._embedded) {
             items = data._embedded.kanjis;
           }

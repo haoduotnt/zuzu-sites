@@ -67,7 +67,7 @@ app.use(expressJwt({
   getToken: req => req.cookies.id_token,
 }));
 app.use((req, res, next) => {
-  const token = req.cookies['id_token'];
+  const token = req.cookies.id_token;
   if (token) {
     try {
       req.user = jwt.verify(token, auth.jwt.secret); // eslint-disable-line no-param-reassign

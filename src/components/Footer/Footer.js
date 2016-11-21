@@ -72,7 +72,6 @@ class Footer extends Component {
 function mapStateToProps(state) {
   return {
     device: state.device.device,
-    userAgent: state.device.userAgent,
   };
 }
 

@@ -7,123 +7,43 @@
  * LICENSE.txt file in the root directory of this source tree.
  */
 
-import React, { PropTypes } from 'react';
-import { connect } from 'react-redux'
+import React from 'react';
+import { connect } from 'react-redux';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
-import Layout from '../../components/Layout';
-import s from './Kanjis.css';
+import FlatButton from 'material-ui/FlatButton';
 
-import {GridList, GridTile} from 'material-ui/GridList';
-import IconButton from 'material-ui/IconButton';
-import Subheader from 'material-ui/Subheader';
-import StarBorder from 'material-ui/svg-icons/toggle/star-border';
+import s from './Kanjis.css';
+import KanjiDesktop from './KanjiDesktop';
+import KanjiMobile from './KanjiMobile';
 
 class Kanjis extends React.Component {
+  static propTypes = {
+    kanjis: React.PropTypes.arrayOf(React.PropTypes.object),
+    device: React.PropTypes.object,
+  }
+
   render() {
+    let layout;
     const { kanjis } = this.props;
-    let layout = (
-      <KanjiDesktop kanjis={kanjis} />
-    )
-    if (this.props.device.type !== 'desktop') {
+    if (kanjis === null || kanjis.length === 0) {
       layout = (
-        <KanjiMobile kanjis={kanjis} />
-      )
+        <center><FlatButton label="Server under maintaince." secondary /></center>
+      );
+    } else {
+      layout = (
+        <KanjiDesktop kanjis={kanjis} />
+      );
+      if (this.props.device.type !== 'desktop') {
+        layout = (
+          <KanjiMobile kanjis={kanjis} />
+        );
+      }
     }
-    return (
-      <Layout>
-        <div className={s.root}>
-          <div className={s.container}>
-            {layout}
-          </div>
-        </div>
-      </Layout>
-    );
-  }
-}
 
-const desktopStyles = {
-  root: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    justifyContent: 'space-around',
-  },
-  gridList: {
-    overflowY: 'auto',
-  },
-};
-
-class KanjiDesktop extends React.Component {
-  render() {
-    const { kanjis } = this.props;
-    return (
-      <div style={desktopStyles.root}>
-        <GridList
-          cellHeight={180}
-          cols={4}
-          style={desktopStyles.gridList}
-        >
-          {kanjis.map((kanji) => (
-            <GridTile
-              key={kanji.code}
-              title={<span><b>{kanji.meaning}</b></span>}
-              actionIcon={<IconButton><StarBorder color="white" /></IconButton>}
-            >
-              <center><h1 style={{fontSize: 48}}>{String.fromCharCode(kanji.code)}</h1></center>
-            </GridTile>
-          ))}
-        </GridList>
-      </div>
-    );
-  }
-}
-
-const mobileStyles = {
-  root: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    justifyContent: 'space-around',
-  },
-  gridList: {
-    width: 500,
-    height: 450,
-    overflowY: 'auto',
-  },
-};
-
-class KanjiMobile extends React.Component {
-  render() {
-    const { kanjis } = this.props;
-    return (
-      <div style={mobileStyles.root}>
-        <GridList
-          cellHeight={180}
-          cols={2}
-          style={mobileStyles.gridList}
-        >
-          {kanjis.map((kanji) => (
-            <GridTile
-              key={kanji.code}
-              title={<span><b>{kanji.meaning}</b></span>}
-            >
-              <center><h1 style={{fontSize: 48}}>{String.fromCharCode(kanji.code)}</h1></center>
-            </GridTile>
-          ))}
-        </GridList>
-      </div>
-    );
-  }
-}
-
-class KanjiObject extends React.Component {
-  render() {
-    const { kanji } = this.props;
     return (
       <div className={s.root}>
         <div className={s.container}>
-          <h1 className={s.title}>Kanji</h1>
-          <ul className={s.news}>
-            Kanji {String.fromCharCode(kanji.code)}
-          </ul>
+          {layout}
         </div>
       </div>
     );
@@ -133,7 +53,6 @@ class KanjiObject extends React.Component {
 function mapStateToProps(state) {
   return {
     device: state.device.device,
-    userAgent: state.device.userAgent,
   };
 }
 

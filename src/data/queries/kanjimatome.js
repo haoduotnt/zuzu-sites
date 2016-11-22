@@ -24,6 +24,8 @@ const headers = {
     'X-Parse-REST-API-Key': 'xxx',
   },
 };
+
+let item;
 const kanjimatome = {
   type: KanjiMatomeType,
   args: {
@@ -67,9 +69,14 @@ const kanjimatome = {
       if (err) {
         return null;
       }
-      return results;
+      item = results;
+      return item;
        // results is now equals to: {info: 'abc\n', words: 'xyz\n', ...}
     });
+    if (item) {
+      return item;
+    }
+    return {};
   },
 };
 

@@ -15,7 +15,7 @@ import {
 import fetch from '../../core/fetch';
 import KanjiType from '../types/KanjiType';
 
-const url = 'http://127.0.0.1:9000/api/v1/kanjis';
+const url = 'http://localhost:9000/api/v1/kanjis';
 
 let item;
 let lastFetchTask;

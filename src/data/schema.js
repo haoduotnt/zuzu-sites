@@ -15,6 +15,7 @@ import {
 import me from './queries/me';
 import content from './queries/content';
 import news from './queries/news';
+import kanjimatome from './queries/kanjimatome';
 import kanji from './queries/kanji';
 import kanjis from './queries/kanjis';
 
@@ -27,6 +28,7 @@ const schema = new Schema({
       news,
       kanjis,
       kanji,
+      kanjimatome,
     },
   }),
 });

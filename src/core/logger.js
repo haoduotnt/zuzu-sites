@@ -21,10 +21,11 @@ log4js.configure({
   ],
 }, { cwd: logDir });
 
-exports.info = function info(msg) {
+exports.info = function(msg) {
+  console.log(msg);
   log4js.getLogger('info').info(msg);
 };
 
-exports.error = function error(msg) {
+exports.error = function(msg) {
   log4js.getLogger('error').error(msg);
 };

@@ -9,17 +9,38 @@
 
 import React from 'react';
 import Jlpt from './Jlpt';
+import fetch from '../../core/fetch';
+import Layout from '../../components/Layout';
+import Maintenance from '../../components/Maintenance';
 
 export default {
 
-  path: '/japanese/jlpt/:category/:jlptLevel',
+  path: '/japanese/jlpt',
 
-  async action({ params }) {
-    const category = params.category;
-    const jlptLevel = params.jlptLevel;
+  async action() {
+    const resp = await fetch('/graphql', {
+      method: 'post',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        query: '{news{title,link,contentSnippet}}',
+      }),
+      credentials: 'include',
+    });
+    const { data } = await resp.json();
+    let component = (
+      <Maintenance />
+    );
+    if (data && data.news) {
+      component = (
+        <Jlpt news={data.news} />
+      );
+    }
     return {
       title: 'React Starter Kit',
-      component: <Jlpt level={jlptLevel} category={category} />,
+      component: <Layout>{component}</Layout>,
     };
   },
 

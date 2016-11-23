@@ -9,27 +9,37 @@
 
 import React, { PropTypes } from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
-import Layout from '../../components/Layout';
 import s from './Jlpt.css';
 
-function Jlpt({ category, level }) {
-  return (
-    <Layout>
+class Jlpt extends React.Component {
+  static propTypes = {
+    news: PropTypes.arrayOf(PropTypes.shape({
+      title: PropTypes.string.isRequired,
+      link: PropTypes.string.isRequired,
+      contentSnippet: PropTypes.string,
+    })).isRequired,
+  };
+
+  render() {
+    return (
       <div className={s.root}>
         <div className={s.container}>
-          <h1 className={s.title}>JLPT Level</h1>
+          <h1 className={s.title}>React.js News</h1>
           <ul className={s.news}>
-            {category} JLPT {level}
+            {this.props.news.map((item, index) => (
+              <li key={index} className={s.newsItem}>
+                <a href={item.link} className={s.newsTitle}>{item.title}</a>
+                <span
+                  className={s.newsDesc}
+                  dangerouslySetInnerHTML={{ __html: item.contentSnippet }}
+                />
+              </li>
+            ))}
           </ul>
         </div>
       </div>
-    </Layout>
-  );
+    );
+  }
 }
-
-Jlpt.propTypes = {
-  category: PropTypes.string,
-  level: PropTypes.string,
-};
 
 export default withStyles(s)(Jlpt);

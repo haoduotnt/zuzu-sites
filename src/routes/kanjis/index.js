@@ -11,7 +11,7 @@ import React from 'react';
 import Kanjis from './Kanjis';
 import fetch from '../../core/fetch';
 import Layout from '../../components/Layout';
-import NotFound from '../notFound/NotFound';
+import Maintenance from '../../components/Maintenance';
 
 export default {
 
@@ -30,15 +30,17 @@ export default {
       credentials: 'include',
     });
     const { data } = await resp.json();
-    if (!data) {
-      return {
-        title: '',
-        component: <Layout><NotFound /></Layout>,
-      };
+    let component = (
+      <Maintenance />
+    );
+    if (data && data.kanjis) {
+      component = (
+        <Kanjis kanjis={data.kanjis} />
+      );
     }
     return {
       title: 'React Starter Kit',
-      component: <Layout><Kanjis kanjis={data.kanjis} /></Layout>,
+      component: <Layout>{component}</Layout>,
     };
   },
 

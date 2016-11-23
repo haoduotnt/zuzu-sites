@@ -11,7 +11,7 @@ import React from 'react';
 import Kanji from './Kanji';
 import fetch from '../../core/fetch';
 import Layout from '../../components/Layout';
-import NotFound from '../notFound/NotFound';
+import Maintenance from '../../components/Maintenance';
 
 export default {
 
@@ -26,20 +26,22 @@ export default {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        query: `{kanji(code:${code}){code,meaning}}`,
+        query: `{kanjimatome(code:${code}){kanji{code,meaning}}}`,
       }),
       credentials: 'include',
     });
     const { data } = await resp.json();
-    if (!data) {
-      return {
-        title: 'Kanji',
-        component: <Layout><NotFound /></Layout>,
-      };
+    let component = (
+      <Maintenance />
+    );
+    if (data && data.kanjis) {
+      component = (
+        <Kanji code={code} kanji={data} />
+      );
     }
     return {
-      title: `Kanji ${data.code}`,
-      component: <Layout><Kanji code={code} kanji={data} /></Layout>,
+      title: 'React Starter Kit',
+      component: <Layout>{component}</Layout>,
     };
   },
 

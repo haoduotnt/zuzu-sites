@@ -18,13 +18,24 @@ class Kanji extends React.Component {
   }
 
   render() {
-    const { code } = this.props;
+    const { code, kanji } = this.props;
     return (
       <div className={s.root}>
         <div className={s.container}>
           <h1 style={{ fontSize: 72 }}><b>{String.fromCharCode(code)}</b></h1>
           <ul className={s.news}>
             Kanji {String.fromCharCode(code)}
+            <br />
+            {kanji.kanji.code}
+            <br />
+            {kanji.kanji.meaning}
+            <br />
+            {kanji.words.length !== 0 && kanji.words.map((word) => (
+              <div>{word.word}</div>
+            ))}
+            {kanji.sentences !== 0 && kanji.sentences.map((sentence) => (
+              <div>{sentence.sentence}</div>
+            ))}
           </ul>
         </div>
       </div>

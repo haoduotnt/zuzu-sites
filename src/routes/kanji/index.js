@@ -26,21 +26,23 @@ export default {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        query: `{kanjimatome(code:${code}){kanji{code,meaning}}}`,
+        query: `{kanjimatome(code:${code}){kanji{code,meaning,gradeLevel,jlptLevel,kunReading,onReading,frequency,strokePaths}words{word,meaning,jlptLevel}sentences{sentence,translation}}}`,
       }),
       credentials: 'include',
     });
     const { data } = await resp.json();
+    let title = 'Kanji not found';
     let component = (
       <Maintenance />
     );
-    if (data && data.kanjis) {
+    if (data && data.kanjimatome) {
+      title = `Kanji ${String.fromCharCode(data.kanjimatome.kanji.code)}`;
       component = (
-        <Kanji code={code} kanji={data} />
+        <Kanji code={code} kanji={data.kanjimatome} />
       );
     }
     return {
-      title: 'React Starter Kit',
+      title: `${title}`,
       component: <Layout>{component}</Layout>,
     };
   },

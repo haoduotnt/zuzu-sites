@@ -25,7 +25,7 @@ export default {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        query: '{kanjis{code,meaning}}',
+        query: '{kanjis{code,meaning,gradeLevel,jlptLevel,kunReading,onReading,frequency,strokePaths}}',
       }),
       credentials: 'include',
     });
@@ -39,7 +39,7 @@ export default {
       );
     }
     return {
-      title: 'React Starter Kit',
+      title: 'All kanji in japanese',
       component: <Layout>{component}</Layout>,
     };
   },

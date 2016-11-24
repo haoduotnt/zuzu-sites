@@ -17,11 +17,14 @@ import {
 const KanjiType = new ObjectType({
   name: 'Kanji',
   fields: {
-    code: { type: new NonNull(IntType) },
+    code: { type: new NonNull(StringType) },
     jlptLevel: { type: IntType },
+    gradeLevel: { type: IntType },
     kunReading: { type: StringType },
     onReading: { type: StringType },
     meaning: { type: StringType },
+    frequency: { type: IntType },
+    strokePaths: { type: StringType },
   },
 });
 

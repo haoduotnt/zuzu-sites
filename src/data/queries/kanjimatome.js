@@ -15,15 +15,7 @@ import {
 
 import fetch from '../../core/fetch';
 import KanjiMatomeType from '../types/KanjiMatomeType';
-
-const headers = {
-  method: 'GET',
-  headers: {
-    'X-Clacks-Overhead': 'http://jtests.com',
-    'X-Parse-Application-Id': 'xxx',
-    'X-Parse-REST-API-Key': 'xxx',
-  },
-};
+import { baseURL } from '../../config';
 
 let item;
 const kanjimatome = {
@@ -32,11 +24,11 @@ const kanjimatome = {
     code: { type: new NonNull(IntType) },
   },
   resolve({ request }, { code }) {
-    const requestInfo = `http://127.0.0.1:9000/api/v1/kanjis/${code}`;
+    const requestInfo = `${baseURL}/kanjis/${code}`;
     /* eslint no-underscore-dangle: ["error", { "allow": ["_embedded"] }]*/
     async.parallel({
       kanji(callback) {
-        fetch(requestInfo, headers)
+        fetch(requestInfo)
          .then(response => response.json())
          .then(data => {
            callback(null, data);
@@ -46,7 +38,7 @@ const kanjimatome = {
          });
       },
       words(callback) {
-        fetch(`${requestInfo}/words`, headers)
+        fetch(`${requestInfo}/words`)
          .then(response => response.json())
          .then(data => {
            callback(null, data._embedded.words);
@@ -56,7 +48,7 @@ const kanjimatome = {
          });
       },
       sentences(callback) {
-        fetch(`${requestInfo}/sentences`, headers)
+        fetch(`${requestInfo}/sentences`)
          .then(response => response.json())
          .then(data => {
            callback(null, data._embedded.sentences);

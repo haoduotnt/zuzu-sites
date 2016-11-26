@@ -8,16 +8,21 @@
  */
 
 import React from 'react';
-import Kanjis from './Kanjis';
+import Kanjis from '../kanjis/Kanjis';
 import fetch from '../../core/fetch';
 import Layout from '../../components/Layout';
 import Maintenance from '../../components/Maintenance';
 
 export default {
 
-  path: '/japanese/kanjis',
+  path: '/japanese/kanjis/:page',
 
-  async action() {
+  async action({ params }) {
+    let page = params.page;
+    if (isNaN(page) || page < 1) {
+      page = 1;
+    }
+    page -= 1;
     const resp = await fetch('/graphql', {
       method: 'post',
       headers: {
@@ -25,7 +30,7 @@ export default {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        query: '{kanjis(page:0){kanjis{code,meaning,gradeLevel,jlptLevel,kunReading,onReading,frequency,strokePaths}page{size,totalPages,totalElements,number}}}',
+        query: `{kanjis(page:${page}){kanjis{code,meaning,gradeLevel,jlptLevel,kunReading,onReading,frequency,strokePaths}page{size,totalPages,totalElements,number}}}`,
       }),
       credentials: 'include',
     });

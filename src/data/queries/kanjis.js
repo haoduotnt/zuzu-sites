@@ -7,55 +7,45 @@
  * LICENSE.txt file in the root directory of this source tree.
  */
 
-import { GraphQLList as List } from 'graphql';
+import {
+  GraphQLInt as IntType,
+  GraphQLNonNull as NonNull,
+} from 'graphql';
+
 import fetch from '../../core/fetch';
-import KanjiType from '../types/KanjiType';
+import KanjisType from '../types/KanjisType';
+import { baseURL } from '../../config';
 
-const url = 'http://localhost:9000/api/v1/kanjis';
-
-let items = [];
-let lastFetchTask;
-let lastFetchTime = new Date(1970, 0, 1);
+const kanjiInfo = {};
 
 const kanjis = {
-  type: new List(KanjiType),
-  resolve() {
-    if (lastFetchTask) {
-      return lastFetchTask;
+  type: KanjisType,
+  args: {
+    page: { type: new NonNull(IntType) },
+  },
+  resolve({ request }, { page }) {
+    const pageLink = `${baseURL}/kanjis?page=${page}&size=20`;
+
+    fetch(pageLink)
+      .then(response => response.json())
+      .then(data => {
+        /* eslint no-underscore-dangle: ["error", { "allow": ["_embedded"] }]*/
+
+        if (data._embedded) {
+          kanjiInfo.kanjis = data._embedded.kanjis;
+        }
+
+        if (data.page) {
+          kanjiInfo.page = data.page;
+        }
+        return kanjiInfo;
+      });
+
+    if (kanjiInfo) {
+      return kanjiInfo;
     }
 
-    if ((new Date() - lastFetchTime) > 1000 * 60 * 10 /* 10 mins */) {
-      lastFetchTime = new Date();
-      lastFetchTask = fetch(url, {
-        method: 'GET',
-        headers: {
-          'X-Clacks-Overhead': 'http://jtests.com',
-          'X-Parse-Application-Id': 'xxx',
-          'X-Parse-REST-API-Key': 'xxx',
-        },
-      })
-        .then(response => response.json())
-        .then(data => {
-          /* eslint no-underscore-dangle: ["error", { "allow": ["_embedded"] }]*/
-
-          if (data._embedded) {
-            items = data._embedded.kanjis;
-          }
-
-          return items;
-        })
-        .finally(() => {
-          lastFetchTask = null;
-        });
-
-      if (items.length) {
-        return items;
-      }
-
-      return lastFetchTask;
-    }
-
-    return items;
+    return kanjiInfo;
   },
 };
 

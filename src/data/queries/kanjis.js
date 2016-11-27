@@ -16,23 +16,22 @@ import fetch from '../../core/fetch';
 import KanjisType from '../types/KanjisType';
 import { baseURL } from '../../config';
 
-const kanjiInfo = {};
 
 const kanjis = {
   type: KanjisType,
   args: {
     page: { type: new NonNull(IntType) },
   },
-  resolve({ request }, { page }) {
+  async resolve({ request }, { page }) {
+    const kanjiInfo = {};
     const pageLink = `${baseURL}/kanjis?page=${page}&size=20`;
-
-    fetch(pageLink)
+    await fetch(pageLink)
       .then(response => response.json())
       .then(data => {
         /* eslint no-underscore-dangle: ["error", { "allow": ["_embedded"] }]*/
-
         if (data._embedded) {
           kanjiInfo.kanjis = data._embedded.kanjis;
+          kanjiInfo.kanjis.sort((a, b) => a.code - b.code);
         }
 
         if (data.page) {
@@ -40,11 +39,6 @@ const kanjis = {
         }
         return kanjiInfo;
       });
-
-    if (kanjiInfo) {
-      return kanjiInfo;
-    }
-
     return kanjiInfo;
   },
 };

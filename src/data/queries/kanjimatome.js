@@ -7,68 +7,34 @@
  * LICENSE.txt file in the root directory of this source tree.
  */
 
-import async from 'async';
 import {
   GraphQLInt as IntType,
   GraphQLNonNull as NonNull,
 } from 'graphql';
 
+import Promise from 'bluebird';
+
 import fetch from '../../core/fetch';
 import KanjiMatomeType from '../types/KanjiMatomeType';
 import { baseURL } from '../../config';
 
-let item;
 const kanjimatome = {
   type: KanjiMatomeType,
   args: {
     code: { type: new NonNull(IntType) },
   },
-  resolve({ request }, { code }) {
+  async resolve({ request }, { code }) {
     const requestInfo = `${baseURL}/kanjis/${code}`;
     /* eslint no-underscore-dangle: ["error", { "allow": ["_embedded"] }]*/
-    async.parallel({
-      kanji(callback) {
-        fetch(requestInfo)
-         .then(response => response.json())
-         .then(data => {
-           callback(null, data);
-         })
-         .catch((err) => {
-           callback(err);
-         });
-      },
-      words(callback) {
-        fetch(`${requestInfo}/words`)
-         .then(response => response.json())
-         .then(data => {
-           callback(null, data._embedded.words);
-         })
-         .catch((err) => {
-           callback(err);
-         });
-      },
-      sentences(callback) {
-        fetch(`${requestInfo}/sentences`)
-         .then(response => response.json())
-         .then(data => {
-           callback(null, data._embedded.sentences);
-         })
-         .catch((err) => {
-           callback(err);
-         });
-      },
-    }, (err, results) => {
-      if (err) {
-        return null;
-      }
-      item = results;
-      return item;
-       // results is now equals to: {info: 'abc\n', words: 'xyz\n', ...}
+    const kanji = fetch(requestInfo).then(response => response.json());
+    const words = fetch(`${requestInfo}/words`).then(response => response.json()).then(data => data._embedded.words);
+    const sentences = fetch(`${requestInfo}/sentences`).then(response => response.json()).then(data => data._embedded.sentences);
+
+    return Promise.props({ // wait for all promises to resolve
+      kanji,
+      words,
+      sentences,
     });
-    if (item) {
-      return item;
-    }
-    return {};
   },
 };
 

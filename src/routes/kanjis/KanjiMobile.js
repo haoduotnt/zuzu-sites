@@ -2,6 +2,8 @@
 import React from 'react';
 import { GridList, GridTile } from 'material-ui/GridList';
 
+import Link from './../../components/Link';
+
 const mobileStyles = {
   root: {
     display: 'flex',
@@ -34,7 +36,9 @@ class KanjiMobile extends React.Component {
               key={kanji.code}
               title={<span><b>{kanji.meaning}</b></span>}
             >
-              <center><h1 style={{ fontSize: 48 }}>{String.fromCharCode(kanji.code)}</h1></center>
+              <center>
+                <Link to={`/japanese/kanji/${kanji.code}`}><h1 style={{ fontSize: 48 }}>{String.fromCharCode(kanji.code)}</h1></Link>
+              </center>
             </GridTile>
           ))}
         </GridList>

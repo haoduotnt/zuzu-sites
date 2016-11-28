@@ -23,6 +23,7 @@ class Kanjis extends React.Component {
   static propTypes = {
     kanjis: React.PropTypes.arrayOf(React.PropTypes.object),
     page: React.PropTypes.object,
+    currentPage: React.PropTypes.number,
     device: React.PropTypes.object,
   }
 
@@ -51,20 +52,21 @@ class Kanjis extends React.Component {
     return (
       <div className={s.root}>
         <div className={s.container}>
-          <Pagination
-            previousLabel={'«'}
-            nextLabel={'»'}
-            breakLabel={<a href="">...</a>}
-            breakClassName={'break-me'}
-            pageNum={page.size}
-            marginPagesDisplayed={1}
-            pageRangeDisplayed={2}
-            clickCallback={this.handlePageClick}
-            containerClassName={'pagination'}
-            subContainerClassName={'pages pagination'}
-            activeClassName={'active'}
-          />
           {layout}
+          <center>
+            <Pagination
+              previousLabel={'«'}
+              nextLabel={'»'}
+              pageNum={page.size}
+              forceSelected={this.props.currentPage}
+              marginPagesDisplayed={1}
+              pageRangeDisplayed={2}
+              clickCallback={this.handlePageClick}
+              containerClassName={'pagination'}
+              subContainerClassName={'pages pagination'}
+              activeClassName={'active'}
+            />
+          </center>
         </div>
       </div>
     );

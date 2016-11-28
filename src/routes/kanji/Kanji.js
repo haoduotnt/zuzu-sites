@@ -13,7 +13,7 @@ import s from './Kanji.css';
 
 class Kanji extends React.Component {
   static propTypes = {
-    code: React.PropTypes.number,
+    code: React.PropTypes.string,
     kanji: React.PropTypes.object,
   }
 
@@ -31,10 +31,10 @@ class Kanji extends React.Component {
             {kanji.kanji.meaning}
             <br />
             {kanji.words.length !== 0 && kanji.words.map((word) => (
-              <div>{word.word}</div>
+              <div key={`word_${word.id}`}>{word.word}</div>
             ))}
             {kanji.sentences !== 0 && kanji.sentences.map((sentence) => (
-              <div>{sentence.sentence}</div>
+              <div key={`sentence_${sentence.id}`}>{sentence.sentence}</div>
             ))}
           </ul>
         </div>

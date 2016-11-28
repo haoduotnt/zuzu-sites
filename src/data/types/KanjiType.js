@@ -17,7 +17,7 @@ import {
 const KanjiType = new ObjectType({
   name: 'Kanji',
   fields: {
-    code: { type: new NonNull(StringType) },
+    code: { type: new NonNull(IntType) },
     jlptLevel: { type: IntType },
     gradeLevel: { type: IntType },
     kunReading: { type: StringType },

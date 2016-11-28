@@ -40,7 +40,7 @@ export default {
     );
     if (data && data.kanjis.kanjis) {
       component = (
-        <Kanjis kanjis={data.kanjis.kanjis} page={data.kanjis.page} />
+        <Kanjis kanjis={data.kanjis.kanjis} page={data.kanjis.page} currentPage={page} />
       );
     }
     return {

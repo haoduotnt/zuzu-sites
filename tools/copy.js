@@ -31,19 +31,20 @@ async function copy() {
     copyDir('node_modules/bootstrap/dist/css', 'build/public/css'),
     copyDir('node_modules/bootstrap/dist/fonts', 'build/public/fonts'),
     copyDir('src/content', 'build/content'),
-    copyDir('src/public', 'build/public'),
+    copyDir('public', 'build/public'),
   ]);
 
   if (process.argv.includes('--watch')) {
     const watcher = await new Promise((resolve, reject) => {
       gaze([
         'src/content/**/*',
-        'src/public/**/*',
+        'public/**/*',
       ], (err, val) => (err ? reject(err) : resolve(val)));
     });
 
     watcher.on('all', async (event, filePath) => {
-      const dist = path.join('build/', path.relative('src', filePath));
+      const src = path.relative('./', filePath);
+      const dist = path.join('build/', src.startsWith('src') ? path.relative('src', src) : src);
       switch (event) {
         case 'added':
         case 'renamed':

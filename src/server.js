@@ -86,7 +86,7 @@ googleAuth(app);
 // -----------------------------------------------------------------------------
 app.use('/graphql', expressGraphQL(req => ({
   schema,
-  graphiql: true,
+  graphiql: process.env.NODE_ENV !== 'production',
   rootValue: { request: req },
   pretty: process.env.NODE_ENV !== 'production',
 })));
@@ -146,11 +146,15 @@ app.get('*', async (req, res, next) => {
         <MuiThemeProvider muiTheme={muiTheme}>{route.component}</MuiThemeProvider>
       </App>);
     data.style = [...css].join('');
-    data.script = assets.main.js;
+    data.scripts = [
+      assets.vendor.js,
+      assets.client.js,
+    ];
+    if (assets[route.chunk]) {
+      data.scripts.push(assets[route.chunk].js);
+    }
     data.state = context.store.getState();
-    data.chunk = assets[route.chunk] && assets[route.chunk].js;
     const html = ReactDOM.renderToStaticMarkup(<Html {...data} />);
-
     res.status(route.status || 200);
     res.send(`<!doctype html>${html}`);
   } catch (err) {

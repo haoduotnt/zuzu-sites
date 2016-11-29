@@ -1,12 +1,11 @@
-import { DETECT_DEVICE } from '../constants';
+import { GET_GRAMMARS } from '../constants';
 
 export default function index(state = {}, action) {
   switch (action.type) {
-    case DETECT_DEVICE:
+    case GET_GRAMMARS:
       return {
         ...state,
-        device: action.payload.device,
-        userAgent: action.payload.userAgent,
+        grammars: [],
       };
     default:
       return state;

@@ -14,7 +14,7 @@ import {
 
 import fetch from '../../core/fetch';
 import KanjisType from '../types/KanjisType';
-import { baseURL } from '../../config';
+import { baseURL, requestHeaders } from '../../config';
 
 
 const kanjis = {
@@ -25,7 +25,8 @@ const kanjis = {
   async resolve({ request }, { page }) {
     const kanjiInfo = {};
     const pageLink = `${baseURL}/kanjis?page=${page}&size=20`;
-    await fetch(pageLink)
+    // const pageLink = 'http://requestb.in/oqjxa2oq';
+    await fetch(pageLink, requestHeaders)
       .then(response => response.json())
       .then(data => {
         /* eslint no-underscore-dangle: ["error", { "allow": ["_embedded"] }]*/

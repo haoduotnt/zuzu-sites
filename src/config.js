@@ -12,6 +12,7 @@
 export const port = process.env.PORT || 4000;
 export const host = process.env.WEBSITE_HOSTNAME || 'jtests.com';
 export const baseURL = 'http://127.0.0.1:9000/api/v1';
+export const requestHeaders = { headers: { 'x-app-id': 'app-id-xxx-xxxxxx' } , }
 
 // export const databaseUrl = process.env.DATABASE_URL || 'sqlite:database.sqlite';
 export const databaseUrl = process.env.DATABASE_URL || 'mysql://root:toor@127.0.0.1:3306/zuzuapps';

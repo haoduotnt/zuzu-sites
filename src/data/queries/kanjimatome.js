@@ -16,7 +16,7 @@ import Promise from 'bluebird';
 
 import fetch from '../../core/fetch';
 import KanjiMatomeType from '../types/KanjiMatomeType';
-import { baseURL } from '../../config';
+import { baseURL, requestHeaders } from '../../config';
 
 const kanjimatome = {
   type: KanjiMatomeType,
@@ -26,9 +26,9 @@ const kanjimatome = {
   async resolve({ request }, { code }) {
     const requestInfo = `${baseURL}/kanjis/${code}`;
     /* eslint no-underscore-dangle: ["error", { "allow": ["_embedded"] }]*/
-    const kanji = fetch(requestInfo).then(response => response.json());
-    const words = fetch(`${requestInfo}/words`).then(response => response.json()).then(data => data._embedded.words.sort((a, b) => a.id - b.id));
-    const sentences = fetch(`${requestInfo}/sentences`).then(response => response.json()).then(data => data._embedded.sentences.sort((a, b) => a.id - b.id));
+    const kanji = fetch(requestInfo, requestHeaders).then(response => response.json());
+    const words = fetch(`${requestInfo}/words`, requestHeaders).then(response => response.json()).then(data => data._embedded.words.sort((a, b) => a.id - b.id));
+    const sentences = fetch(`${requestInfo}/sentences`, requestHeaders).then(response => response.json()).then(data => data._embedded.sentences.sort((a, b) => a.id - b.id));
 
     return Promise.props({ // wait for all promises to resolve
       kanji,

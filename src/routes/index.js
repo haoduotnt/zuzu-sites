@@ -37,8 +37,8 @@ export default {
     const route = await next();
 
     // Provide default values for title, description etc.
-    route.title = `${route.title || 'Japanese Tests - Japanese Quizzes'} - Jtests`;
-    route.description = route.description || 'Try new Japanese quizzes every day. Improve your Japanese significantly with our free online practice tests.';
+    route.title = `${route.title || 'Android apps - Iphone apps'} - Zuzu Apps store`;
+    route.description = route.description || 'Enjoy millions of the latest Android apps, games, music, movies, TV, books, magazines & more. Anytime, anywhere, across your devices.';
 
     return route;
   },

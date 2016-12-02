@@ -8,16 +8,17 @@
  */
 
 import React from 'react';
-import Home from './Home';
+import App from './App';
 import Layout from '../../components/Layout';
 import Maintenance from '../../components/Maintenance';
 import fetch from '../../core/fetch';
 
 export default {
 
-  path: '/',
+  path: '/download/apk/:appId',
 
-  async action() {
+  async action({ params }) {
+    const appId = params.appId;
     const resp = await fetch('/graphql', {
       method: 'post',
       headers: {
@@ -25,22 +26,22 @@ export default {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        query: '{apps(page:0){appId,title,summary,icon,developer{devId},score,price,free,playstoreUrl}}',
+        query: `{app(id:"${appId}"){appId,title,summary,icon,developer{devId},developerEmail,developerWebsite,updated,version,screenshots,minInstalls,minInstalls,description,descriptionHTML,androidVersion,androidVersionText,playstoreUrl,contentRating}}`,
       }),
       credentials: 'include',
     });
     const { data } = await resp.json();
-    let component = (
-      <Maintenance />
-    );
-    if (data && data.apps) {
-      component = (
-        <Home apps={data.apps} />
-      );
+    if (data && data.app) {
+      const app = data.app;
+      return {
+        title: `Download ${app.title} apk`,
+        description: app.summary,
+        component: <Layout><App app={data.app} /></Layout>,
+      };
     }
     return {
       title: 'Download Android apps, Download IPhone apps',
-      component: <Layout>{component}</Layout>,
+      component: <Layout><Maintenance /></Layout>,
     };
   },
 

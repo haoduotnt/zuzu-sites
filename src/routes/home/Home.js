@@ -13,6 +13,7 @@ import IconButton from 'material-ui/IconButton';
 import StarBorder from 'material-ui/svg-icons/toggle/star-border';
 import { GridList, GridTile } from 'material-ui/GridList';
 
+import Link from './../../components/Link';
 import s from './Home.css';
 
 const desktopStyles = {
@@ -50,14 +51,21 @@ class Home extends React.Component {
               style={desktopStyles.gridList}
             >
               {apps.map((app) => (
-                <GridTile
-                  key={app.appId}
-                  title={app.title}
-                  subtitle={<span>by <b>{app.developer.devId}</b></span>}
-                  actionIcon={<IconButton>{app.score}<StarBorder color="white" /></IconButton>}
-                >
-                  <img style={desktopStyles.image} className="img-circle" src={`${app.icon.startsWith('http') ? app.icon : `http:${app.icon}`}`} alt={`Download ${app.title} apk`} />
-                </GridTile>
+                <Link key={`link_${app.appId}`} to={`/download/apk/${app.appId}`}>
+                  <GridTile
+                    key={app.appId}
+                    title={app.title}
+                    subtitle={<span>by <b>{app.developer.devId}</b></span>}
+                    actionIcon={<IconButton>{app.score}<StarBorder color="white" /></IconButton>}
+                  >
+                    <img
+                      style={desktopStyles.image}
+                      className="img-rounded"
+                      src={`${app.icon.startsWith('http') ? app.icon : `http:${app.icon}`}`}
+                      alt={`Download ${app.title} apk`}
+                    />
+                  </GridTile>
+                </Link>
               ))}
             </GridList>
           </div>

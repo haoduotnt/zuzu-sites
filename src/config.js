@@ -9,19 +9,19 @@
 
 /* eslint-disable max-len */
 
-export const port = process.env.PORT || 4000;
-export const host = process.env.WEBSITE_HOSTNAME || 'jtests.com';
+export const port = process.env.PORT || 5000;
+export const host = process.env.WEBSITE_HOSTNAME || `localhost:${port}`;
 export const baseURL = 'http://127.0.0.1:9000/api/v1';
 export const requestHeaders = { headers: { 'x-app-id': 'app-id-xxx-xxxxxx' } };
 
 // export const databaseUrl = process.env.DATABASE_URL || 'sqlite:database.sqlite';
-export const databaseUrl = process.env.DATABASE_URL || 'mysql://root:toor@127.0.0.1:3306/zuzuapps';
+export const databaseUrl = process.env.DATABASE_URL || 'mysql://root:rootroot@127.0.0.1:3306/zuzuapps';
 
 export const analytics = {
 
   // https://analytics.google.com/
   google: {
-    trackingId: process.env.GOOGLE_TRACKING_ID || 'UA-85419058-2', // UA-XXXXX-X
+    trackingId: process.env.GOOGLE_TRACKING_ID || 'UA-85419058-1', // UA-XXXXX-X
   },
 
 };

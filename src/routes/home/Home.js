@@ -24,6 +24,9 @@ const desktopStyles = {
   gridList: {
     overflowY: 'auto',
   },
+  image: {
+    padding: 20,
+  },
 };
 
 class Home extends React.Component {
@@ -53,7 +56,7 @@ class Home extends React.Component {
                   subtitle={<span>by <b>{app.developer.devId}</b></span>}
                   actionIcon={<IconButton>{app.score}<StarBorder color="white" /></IconButton>}
                 >
-                  <img className="img-circle" src={`${app.icon.startsWith('http') ? app.icon : `http:${app.icon}`}`} alt={`Download ${app.title} apk`} />
+                  <img style={desktopStyles.image} className="img-circle" src={`${app.icon.startsWith('http') ? app.icon : `http:${app.icon}`}`} alt={`Download ${app.title} apk`} />
                 </GridTile>
               ))}
             </GridList>

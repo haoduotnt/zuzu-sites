@@ -8,21 +8,20 @@
  */
 
 import {
-  GraphQLInt as IntType,
+  GraphQLString as StringType,
   GraphQLNonNull as NonNull,
-  GraphQLList as List,
 } from 'graphql';
 
 import ApplicationType from '../types/ApplicationType';
 
-const apps = {
-  type: new List(ApplicationType),
+const app = {
+  type: ApplicationType,
   args: {
-    page: { type: new NonNull(IntType) },
+    id: { type: new NonNull(StringType) },
   },
-  async resolve({ request }, { page }, { googleplay }) {
-    return googleplay.app.loadAll(page);
+  async resolve({ request }, { id }, { googleplay }) {
+    return googleplay.app.load(id);
   },
 };
 
-export default apps;
+export default app;

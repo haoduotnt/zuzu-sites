@@ -11,6 +11,11 @@ function getApps(page) {
     .then(data => data.results);
 }
 
+function getApp(id) {
+  return fetch(`${BASE_URL}/${id}`)
+    .then(res => res.json());
+}
+
 async function getGames() {
   return gplay.list({
     category: gplay.category.GAME,
@@ -25,7 +30,12 @@ const gameLoader =
   new DataLoader(keys => Promise.all(keys.map(getGames)), { cacheMap });
 
 const appLoader =
+  new DataLoader(keys => Promise.all(keys.map(getApp)), { cacheMap });
+
+const appsLoader =
   new DataLoader(keys => Promise.all(keys.map(getApps)), { cacheMap });
+
+appLoader.loadAll = appsLoader.load.bind(appsLoader);
 
 const googleplay = {
   game: gameLoader,

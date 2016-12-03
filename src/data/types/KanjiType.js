@@ -24,6 +24,7 @@ const KanjiType = new ObjectType({
     onReading: { type: StringType },
     meaning: { type: StringType },
     frequency: { type: IntType },
+    strokeCount: { type: IntType },
     strokePaths: { type: StringType },
   },
 });

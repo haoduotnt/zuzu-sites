@@ -26,7 +26,7 @@ export default {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        query: `{kanjimatome(code:${code}){kanji{code,meaning,gradeLevel,jlptLevel,kunReading,onReading,frequency,strokePaths}words{id,word,meaning,jlptLevel}sentences{id,sentence,translation}}}`,
+        query: `{kanjimatome(code:${code}){kanji{code,meaning,gradeLevel,jlptLevel,kunReading,onReading,frequency,strokeCount,strokePaths}words{id,word,reading,meaning,jlptLevel}sentences{id,sentence,translation}}}`,
       }),
       credentials: 'include',
     });

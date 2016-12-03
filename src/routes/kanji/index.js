@@ -18,7 +18,10 @@ export default {
   path: '/japanese/kanji/:code',
 
   async action({ params }) {
-    const code = params.code;
+    let code = params.code;
+    if (isNaN(code)) {
+      code = code.charCodeAt(0);
+    }
     const resp = await fetch('/graphql', {
       method: 'post',
       headers: {
@@ -26,24 +29,26 @@ export default {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        query: `{kanjimatome(code:${code}){kanji{code,meaning,gradeLevel,jlptLevel,kunReading,onReading,frequency,strokeCount,strokePaths}words{id,word,reading,meaning,jlptLevel}sentences{id,sentence,translation}}}`,
+        query: `{kanjimatome(code:${code}){kanji{code,meaning,gradeLevel,jlptLevel,kunReading,onReading,kanjiRadicals,frequency,strokeCount,strokePaths,koohiiStory1,koohiiStory2}words{id,word,reading,meaning,jlptLevel}sentences{id,sentence,translation}}}`,
       }),
       credentials: 'include',
     });
     const { data } = await resp.json();
-    let title = 'Kanji not found';
-    let component = (
-      <Maintenance />
-    );
     if (data && data.kanjimatome) {
-      title = `Kanji ${String.fromCharCode(data.kanjimatome.kanji.code)}`;
-      component = (
-        <Kanji code={code} kanji={data.kanjimatome} />
-      );
+      let description = `Kanji ${String.fromCharCode(code)}`;
+      if (data.kanjimatome.kanji.koohiiStory2) {
+        description = `${data.kanjimatome.kanji.jlptLevel ? `N${data.kanjimatome.kanji.jlptLevel}.` : ''} Stroke: ${data.kanjimatome.kanji.strokeCount}. Story 1: ${data.kanjimatome.kanji.koohiiStory2}. Story 2: ${data.kanjimatome.kanji.koohiiStory1}`;
+      }
+      return {
+        title: `Kanji ${String.fromCharCode(data.kanjimatome.kanji.code)}`,
+        description,
+        component: <Layout><Kanji code={code} kanji={data.kanjimatome} /></Layout>,
+      };
     }
     return {
-      title: `${title}`,
-      component: <Layout>{component}</Layout>,
+      title: `Kanji ${String.fromCharCode(code)}`,
+      description: `Kanji ${String.fromCharCode(code)}`,
+      component: <Layout><Maintenance /></Layout>,
     };
   },
 

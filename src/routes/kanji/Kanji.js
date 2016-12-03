@@ -19,7 +19,7 @@ import KanjiWord from './KanjiWord';
 
 class Kanji extends React.Component {
   static propTypes = {
-    code: React.PropTypes.string,
+    code: React.PropTypes.number,
     kanji: React.PropTypes.object,
   }
 
@@ -85,6 +85,52 @@ class Kanji extends React.Component {
       );
     }
 
+    let koohiiStory1;
+    if (kanji.kanji.koohiiStory1) {
+      koohiiStory1 = (
+        <div className={s.kanjiArea}>
+          <div style={this.styles.wrapper}>
+            <Chip
+              key={'koohiiStory11'}
+              backgroundColor={'#B3E5FC'}
+              style={this.styles.chip}
+            >
+              Story 1
+            </Chip>
+            <Chip
+              key={'koohiiStory12'}
+              style={this.styles.chip}
+            >
+              {kanji.kanji.koohiiStory1}
+            </Chip>
+          </div>
+        </div>
+      );
+    }
+
+    let koohiiStory2;
+    if (kanji.kanji.koohiiStory2) {
+      koohiiStory2 = (
+        <div className={s.kanjiArea}>
+          <div style={this.styles.wrapper}>
+            <Chip
+              key={'koohiiStory21'}
+              backgroundColor={'#B3E5FC'}
+              style={this.styles.chip}
+            >
+              Story 2
+            </Chip>
+            <Chip
+              key={'koohiiStory22'}
+              style={this.styles.chip}
+            >
+              {kanji.kanji.koohiiStory2}
+            </Chip>
+          </div>
+        </div>
+      );
+    }
+
     return (
       <div className={s.root}>
         <div className={s.container}>
@@ -94,6 +140,8 @@ class Kanji extends React.Component {
             </div>
             <KanjiInfo kanji={kanji.kanji} />
           </div>
+          {koohiiStory1}
+          {koohiiStory2}
           {meaningCompoment}
           <KanjiSentence kanji={kanji} />
           <KanjiWord kanji={kanji} />

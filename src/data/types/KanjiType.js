@@ -23,9 +23,12 @@ const KanjiType = new ObjectType({
     kunReading: { type: StringType },
     onReading: { type: StringType },
     meaning: { type: StringType },
+    kanjiRadicals: { type: StringType },
     frequency: { type: IntType },
     strokeCount: { type: IntType },
     strokePaths: { type: StringType },
+    koohiiStory1: { type: StringType },
+    koohiiStory2: { type: StringType },
   },
 });
 

@@ -37,7 +37,7 @@ class KanjiDesktop extends React.Component {
               actionIcon={<IconButton><StarBorder color="white" /></IconButton>}
             >
               <center>
-                <Link to={`/japanese/kanji/${kanji.code}`}><h1 style={{ fontSize: 48 }}>{String.fromCharCode(kanji.code)}</h1></Link>
+                <Link to={`/japanese/kanji/${String.fromCharCode(kanji.code)}`}><h1 style={{ fontSize: 48 }}>{String.fromCharCode(kanji.code)}</h1></Link>
               </center>
             </GridTile>
           ))}

@@ -14,7 +14,7 @@ function getDataByURL(relativeURL) {
 }
 
 function getKanjis(page) {
-  return getJSONFromRelativeURL(`/kanjis?page=${page}&size=20`)
+  return getJSONFromRelativeURL(`/kanjis/search/kanjiOrderBy?page=${page}&size=20`)
     .then(data => {
       const kanjiInfo = {};
       /* eslint no-underscore-dangle: ["error", { "allow": ["_embedded"] }]*/

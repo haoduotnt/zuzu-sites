@@ -10,11 +10,12 @@
 import React from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import Chip from 'material-ui/Chip';
-import Avatar from 'material-ui/Avatar';
-import Divider from 'material-ui/Divider';
 import Subheader from 'material-ui/Subheader';
-import Paper from 'material-ui/Paper';
 import s from './Kanji.css';
+
+import KanjiInfo from './KanjiInfo';
+import KanjiSentence from './KanjiSentence';
+import KanjiWord from './KanjiWord';
 
 class Kanji extends React.Component {
   static propTypes = {
@@ -64,62 +65,6 @@ class Kanji extends React.Component {
 
   render() {
     const { code, kanji } = this.state;
-    let kunCompoment;
-    if (kanji.kanji.kuns) {
-      const kuns = kanji.kanji.kuns;
-      kunCompoment = (
-        <tr>
-          <td>
-            <div style={this.styles.wrapper}>
-              <Chip
-                key={'kunindex'}
-                backgroundColor={'#B3E5FC'}
-                style={this.styles.chip}
-              >
-                訓
-              </Chip>
-              {kuns.map((kun, index) => (
-                <Chip
-                  key={`kun_${index}`}
-                  style={this.styles.chip}
-                >
-                  {kun}
-                </Chip>
-              ))}
-            </div>
-          </td>
-        </tr>
-      );
-    }
-
-    let onCompoment;
-    if (kanji.kanji.ons) {
-      const ons = kanji.kanji.ons;
-      onCompoment = (
-        <tr>
-          <td>
-            <div style={this.styles.wrapper}>
-              <Chip
-                key={'onindex'}
-                backgroundColor={'#B3E5FC'}
-                style={this.styles.chip}
-              >
-                音
-              </Chip>
-              {ons.map((on, index) => (
-                <Chip
-                  key={`on${index}`}
-                  style={this.styles.chip}
-                >
-                  {on}
-                </Chip>
-              ))}
-            </div>
-          </td>
-        </tr>
-      );
-    }
-
     let meaningCompoment;
     if (kanji.kanji.meanings) {
       const meanings = kanji.kanji.meanings;
@@ -140,68 +85,6 @@ class Kanji extends React.Component {
       );
     }
 
-    let sentencesCompoment;
-    if (kanji.sentences) {
-      sentencesCompoment = (
-        <div className={s.kanjiArea}>
-          <Subheader style={this.styles.subheader}>Sentences</Subheader>
-          {kanji.sentences !== 0 && kanji.sentences.map((sentence) => (
-            <div key={`sentence_${sentence.id}`}>
-              <Chip
-                backgroundColor={'#B3E5FC'}
-                style={this.styles.chip}
-              >
-                <Avatar size={32} backgroundColor={'#E91E63'}>
-                  ja
-                </Avatar>
-                {sentence.sentence}
-              </Chip>
-              <Chip
-                style={this.styles.chip}
-              >
-                <Avatar size={32} backgroundColor={'#4CAF50'}>
-                  en
-                </Avatar>
-                {sentence.translation}
-              </Chip>
-              <Divider />
-            </div>
-          ))}
-        </div>
-      );
-    }
-
-    let wordsCompoment;
-    if (kanji.words) {
-      wordsCompoment = (
-        <div className={s.kanjiArea}>
-          <Subheader style={this.styles.subheader}>Words</Subheader>
-          {kanji.words.length !== 0 && kanji.words.map((word) => (
-            <div key={`word_${word.id}`}>
-              <div style={this.styles.wrapper}>
-                <Chip
-                  backgroundColor={'#B3E5FC'}
-                  style={this.styles.chip}
-                >
-                  <Avatar size={32} backgroundColor={'#E91E63'}>
-                    ja
-                  </Avatar>
-                  {word.word}
-                </Chip>
-                <Chip
-                  style={this.styles.chip}
-                >
-                  {word.reading}
-                </Chip>
-              </div>
-              {word.meaning}
-              <Divider />
-            </div>
-          ))}
-        </div>
-      );
-    }
-
     return (
       <div className={s.root}>
         <div className={s.container}>
@@ -209,51 +92,11 @@ class Kanji extends React.Component {
             <div className={s.kanjiCode}>
               <h1 style={{ fontSize: 72 }}><b>{String.fromCharCode(code)}</b></h1>
             </div>
-            <div className={s.kanjiInfo}>
-              <table className="table">
-                <tbody>
-                  <tr>
-                    <td>
-                      <div style={this.styles.wrapper}>
-                        <Chip
-                          backgroundColor={'#B3E5FC'}
-                          style={this.styles.chip}
-                        >
-                          <Avatar size={32} backgroundColor={'#E91E63'}>
-                            {kanji.kanji.jlptLevel}
-                          </Avatar>
-                          JLPT Level
-                        </Chip>
-                        <Chip
-                          backgroundColor={'#B3E5FC'}
-                          style={this.styles.chip}
-                        >
-                          <Avatar size={32} backgroundColor={'#E91E63'}>
-                            {kanji.kanji.gradeLevel}
-                          </Avatar>
-                          Grade Level
-                        </Chip>
-                        <Chip
-                          backgroundColor={'#B3E5FC'}
-                          style={this.styles.chip}
-                        >
-                          <Avatar size={32} backgroundColor={'#E91E63'}>
-                            {kanji.kanji.strokeCount}
-                          </Avatar>
-                          Strokes
-                        </Chip>
-                      </div>
-                    </td>
-                  </tr>
-                  {kunCompoment}
-                  {onCompoment}
-                </tbody>
-              </table>
-            </div>
+            <KanjiInfo kanji={kanji.kanji} />
           </div>
           {meaningCompoment}
-          {sentencesCompoment}
-          {wordsCompoment}
+          <KanjiSentence kanji={kanji} />
+          <KanjiWord kanji={kanji} />
         </div>
       </div>
     );

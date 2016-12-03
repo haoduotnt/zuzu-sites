@@ -40,6 +40,7 @@ export default {
     }
     return {
       title: 'All kanji in japanese',
+      description: 'More than 6000+ kanji in Japanese. Let\'s learn and master about kanji',
       component: <Layout>{component}</Layout>,
     };
   },

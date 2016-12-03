@@ -37,6 +37,12 @@ class Kanji extends React.Component {
         display: 'flex',
         flexWrap: 'wrap',
       },
+      koohii: {
+        display: 'flex',
+        paddingLeft: '5px',
+        justifyContent: 'center',
+        alignItems: 'center',
+      },
       subheader: {
         color: 'while',
         backgroundColor: '#B3E5FC',
@@ -97,12 +103,9 @@ class Kanji extends React.Component {
             >
               Story 1
             </Chip>
-            <Chip
-              key={'koohiiStory12'}
-              style={this.styles.chip}
-            >
+            <div style={this.styles.koohii}>
               {kanji.kanji.koohiiStory1}
-            </Chip>
+            </div>
           </div>
         </div>
       );
@@ -120,12 +123,9 @@ class Kanji extends React.Component {
             >
               Story 2
             </Chip>
-            <Chip
-              key={'koohiiStory22'}
-              style={this.styles.chip}
-            >
+            <div style={this.styles.koohii}>
               {kanji.kanji.koohiiStory2}
-            </Chip>
+            </div>
           </div>
         </div>
       );
@@ -140,6 +140,7 @@ class Kanji extends React.Component {
             </div>
             <KanjiInfo kanji={kanji.kanji} />
           </div>
+          {kanji.kanji.ra}
           {koohiiStory1}
           {koohiiStory2}
           {meaningCompoment}

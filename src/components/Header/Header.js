@@ -103,9 +103,6 @@ class Header extends Component {
           <Divider />
           <Subheader>日本語を学ぶ</Subheader>
           <Link to="/japanese/kanjis"><MenuItem onTouchTap={this.handleClose} primaryText="漢字" leftIcon={<ContentInbox />} /></Link>
-          <Link to="/japanese/grammars"><MenuItem onTouchTap={this.handleClose} primaryText="文法" leftIcon={<ActionGrade />} /></Link>
-          <Link to="/japanese/word"><MenuItem onTouchTap={this.handleClose} primaryText="単語" leftIcon={<ContentSend />} /></Link>
-          <Link to="/japanese/study"><MenuItem onTouchTap={this.handleClose} primaryText="学習" leftIcon={<ContentInbox />} /></Link>
         </Drawer>
       </div>
     );

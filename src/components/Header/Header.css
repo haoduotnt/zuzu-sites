@@ -14,13 +14,12 @@
 }
 
 .root {
-  background: #373277;
+  background: #00bcd4;
   color: #fff;
 }
 
 .container {
   margin: 0 auto;
-  padding: 20px 0;
   max-width: var(--max-content-width);
 }
 

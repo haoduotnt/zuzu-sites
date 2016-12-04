@@ -85,25 +85,28 @@ class Header extends Component {
       )
     }
     return (
-      <div>
-        <AppBar
-          title="Japanese quiz"
-          onLeftIconButtonTouchTap={this.handleToggle}
-          iconElementRight={this.props.user ? <OptionMenu /> : <LoginMenu />}
-        />
-        <Drawer
-          docked={false}
-          width={250}
-          open={this.state.open}
-          onRequestChange={(open) => this.setState({open})}
-        >
-          {profile}
-          <Divider />
-          <Link to="/"><MenuItem onTouchTap={this.handleClose} primaryText="ホーム" leftIcon={<ActionHome />} /></Link>
-          <Divider />
-          <Subheader>日本語を学ぶ</Subheader>
-          <Link to="/japanese/kanjis"><MenuItem onTouchTap={this.handleClose} primaryText="漢字" leftIcon={<ContentInbox />} /></Link>
-        </Drawer>
+      <div className={s.root}>
+        <div className={s.container}>
+          <AppBar
+            title="Japanese quiz"
+            onLeftIconButtonTouchTap={this.handleToggle}
+            iconElementRight={this.props.user ? <OptionMenu /> : <LoginMenu />}
+            zDepth={0}
+          />
+          <Drawer
+            docked={false}
+            width={250}
+            open={this.state.open}
+            onRequestChange={(open) => this.setState({open})}
+          >
+            {profile}
+            <Divider />
+            <Link to="/"><MenuItem onTouchTap={this.handleClose} primaryText="ホーム" leftIcon={<ActionHome />} /></Link>
+            <Divider />
+            <Subheader>日本語を学ぶ</Subheader>
+            <Link to="/japanese/kanjis"><MenuItem onTouchTap={this.handleClose} primaryText="漢字" leftIcon={<ContentInbox />} /></Link>
+          </Drawer>
+        </div>
       </div>
     );
   }

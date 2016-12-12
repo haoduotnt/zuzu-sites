@@ -31,6 +31,8 @@ import Avatar from 'material-ui/Avatar';
 
 import profileUrl from './anonymous.svg';
 
+import SearchBar from '../SearchBar';
+
 const OptionMenu = (props) => (
   <IconMenu
     {...props}
@@ -88,7 +90,7 @@ class Header extends Component {
       <div className={s.root}>
         <div className={s.container}>
           <AppBar
-            title="Japanese quiz"
+            title={<SearchBar />}
             onLeftIconButtonTouchTap={this.handleToggle}
             iconElementRight={this.props.user ? <OptionMenu /> : <LoginMenu />}
             zDepth={0}

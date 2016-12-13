@@ -44,6 +44,27 @@ function getWordOfKanji(id) {
   .then(data => data._embedded.words.sort((a, b) => a.id - b.id));
 }
 
+function getGrammars(page) {
+  return getJSONFromRelativeURL(`/grammars?page=${page}&size=20`)
+    .then(data => {
+      const grammarInfo = {};
+      /* eslint no-underscore-dangle: ["error", { "allow": ["_embedded"] }]*/
+      if (data._embedded) {
+        grammarInfo.grammars = data._embedded.grammars;
+        grammarInfo.grammars.sort((a, b) => a.id - b.id);
+      }
+
+      if (data.page) {
+        grammarInfo.page = data.page;
+      }
+      return grammarInfo;
+    });
+}
+
+function getGrammar(id) {
+  return getDataByURL(`/grammars/${id}/`);
+}
+
 const cacheMap = new Map();
 
 const kanjisLoader =
@@ -67,12 +88,24 @@ const wordOfKanjiLoader =
     cacheMap,
   });
 
+const grammarsLoader =
+  new DataLoader(keys => Promise.all(keys.map(getGrammars)), { cacheMap });
+
+const grammarLoader =
+  new DataLoader(keys => Promise.all(keys.map(getGrammar)), {
+    cacheKeyFn: key => `/grammars/${key}/`,
+    cacheMap,
+  });
+
 kanjiLoader.loadAll = kanjisLoader.load.bind(kanjisLoader);
 kanjiLoader.loadSentences = sentenceOfKanjiLoader.load.bind(sentenceOfKanjiLoader);
 kanjiLoader.loadWords = wordOfKanjiLoader.load.bind(wordOfKanjiLoader);
 
+grammarLoader.loadAll = grammarsLoader.load.bind(grammarsLoader);
+
 const dataloader = {
   kanji: kanjiLoader,
+  grammar: grammarLoader,
 };
 
 export default dataloader;

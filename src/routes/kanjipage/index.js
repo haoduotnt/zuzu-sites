@@ -45,7 +45,7 @@ export default {
     }
     return {
       title: 'All kanji in japanese',
-      component: <Layout>{component}</Layout>,
+      component: <Layout type="kanji">{component}</Layout>,
     };
   },
 

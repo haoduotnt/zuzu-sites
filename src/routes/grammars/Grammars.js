@@ -25,7 +25,7 @@ class Grammars extends React.Component {
           <ul className={s.news}>
             {this.props.grammars.map((item, index) => (
               <li key={index} className={s.newsItem}>
-                <a href={item.link} className={s.newsTitle}>{item.grammar}</a>
+                <a href={item.link} className={s.newsTitle}>{item.id} {item.grammar}</a>
                 <span
                   className={s.newsDesc}
                   dangerouslySetInnerHTML={{ __html: item.definition }}

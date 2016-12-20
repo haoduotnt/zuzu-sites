@@ -5,7 +5,7 @@ export default function index(state = {}, action) {
     case GET_GRAMMARS:
       return {
         ...state,
-        grammars: [],
+        grammars: action.payload.grammars,
       };
     default:
       return state;

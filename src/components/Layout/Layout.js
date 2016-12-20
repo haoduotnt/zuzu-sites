@@ -15,13 +15,14 @@ import Footer from '../Footer';
 
 class Layout extends React.Component {
   static propTypes = {
+    type: PropTypes.string,
     children: PropTypes.node.isRequired,
   };
 
   render() {
     return (
       <div>
-        <Header />
+        <Header type={this.props.type}/>
         {this.props.children}
         <Footer />
       </div>

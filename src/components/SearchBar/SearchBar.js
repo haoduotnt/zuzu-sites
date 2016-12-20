@@ -102,6 +102,9 @@ const styles = {
 };
 
 class SearchBar extends React.Component {
+  constructor(props) {
+    super(props);
+  }
 
   kanjiFilter = (searchText, key) => {
     for (let index = 0; index < searchText.length; index++) {
@@ -113,10 +116,20 @@ class SearchBar extends React.Component {
     return false;
   };
 
+  grammarFilter = (searchText, key) => {
+    for (let index = 0; index < searchText.length; index++) {
+      if (searchText[index] === key) {
+        return true;
+      }
+    }
+
+    return false;
+  };
+
   render() {
-    return (
-      <div className={s.searchbar}>
-        <SearchIcon color={"white"} hoverColor={"green"}/>
+    let autocomplete;
+    if (this.props.type === "kanji") {
+      autocomplete = (
         <AutoComplete
           style={styles.autocomplete}
           textFieldStyle={styles.textfield}
@@ -125,6 +138,23 @@ class SearchBar extends React.Component {
           maxSearchResults={5}
           fullWidth
         />
+      );
+    } else if (this.props.type === "grammar") {
+      autocomplete = (
+        <AutoComplete
+          style={styles.autocomplete}
+          textFieldStyle={styles.textfield}
+          filter={this.grammarFilter}
+          dataSource={dataSource}
+          maxSearchResults={5}
+          fullWidth
+        />
+      )
+    }
+    return (
+      <div className={s.searchbar}>
+        <SearchIcon color={"white"} hoverColor={"green"}/>
+        {autocomplete}
       </div>
     );
   }
@@ -133,6 +163,7 @@ class SearchBar extends React.Component {
 function mapStateToProps(state) {
   return {
     device: state.device.device,
+    grammars: state.grammars.grammars,
   };
 }
 

@@ -45,7 +45,7 @@ export default {
       return {
         title: `Kanji ${String.fromCharCode(data.kanjimatome.kanji.code)}`,
         description,
-        component: <Layout><Kanji code={code} kanji={data.kanjimatome} /></Layout>,
+        component: <Layout type="kanji"><Kanji code={code} kanji={data.kanjimatome} /></Layout>,
       };
     }
     return {

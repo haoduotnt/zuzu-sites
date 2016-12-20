@@ -86,11 +86,23 @@ class Header extends Component {
         />
       )
     }
+    let title;
+    if (this.props.type === "kanji") {
+      title = (
+        <SearchBar type="kanji" />
+      )
+    } else if (this.props.type === "grammar") {
+      title = (
+        <SearchBar type="grammar" />
+      )
+    } else {
+      title = "漢字マスタ";
+    }
     return (
       <div className={s.root}>
         <div className={s.container}>
           <AppBar
-            title={<SearchBar />}
+            title={title}
             onLeftIconButtonTouchTap={this.handleToggle}
             iconElementRight={this.props.user ? <OptionMenu /> : <LoginMenu />}
             zDepth={0}

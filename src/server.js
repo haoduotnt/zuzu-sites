@@ -124,7 +124,7 @@ app.get('*', async (req, res, next) => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        query: '{grammarall{grammars{grammar,hiragana,jlpt}}}',
+        query: '{grammarall{grammars{id,grammar,hiragana,jlpt}}}',
       }),
       credentials: 'include',
     });

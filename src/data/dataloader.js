@@ -65,35 +65,64 @@ function getGrammar(id) {
   return getDataByURL(`/grammars/${id}/`);
 }
 
+function getAllGrammar() {
+  return getJSONFromRelativeURL('/grammars/search/allGrammar')
+    .then(data => {
+      const grammarInfo = {};
+      /* eslint no-underscore-dangle: ["error", { "allow": ["_embedded"] }]*/
+      if (data._embedded) {
+        grammarInfo.grammars = data._embedded.grammars;
+        grammarInfo.grammars.sort((a, b) => a.id - b.id);
+      }
+
+      if (data.page) {
+        grammarInfo.page = data.page;
+      }
+      return grammarInfo;
+    });
+}
+
 const cacheMap = new Map();
 
 const kanjisLoader =
-  new DataLoader(keys => Promise.all(keys.map(getKanjis)), { cacheMap });
+  new DataLoader(keys => Promise.all(keys.map(getKanjis)), {
+    cacheKeyFn: key => `/kanjis/${key}/`,
+    cacheMap,
+  });
 
 const kanjiLoader =
   new DataLoader(keys => Promise.all(keys.map(getKanji)), {
-    cacheKeyFn: key => `/kanjis/${key}/`,
+    cacheKeyFn: key => `/kanji/${key}/`,
     cacheMap,
   });
 
 const sentenceOfKanjiLoader =
   new DataLoader(keys => Promise.all(keys.map(getSentenceOfKanji)), {
-    cacheKeyFn: key => `/kanjis/${key}/sentences/`,
+    cacheKeyFn: key => `/kanji/${key}/sentences/`,
     cacheMap,
   });
 
 const wordOfKanjiLoader =
   new DataLoader(keys => Promise.all(keys.map(getWordOfKanji)), {
-    cacheKeyFn: key => `/kanjis/${key}/words/`,
+    cacheKeyFn: key => `/kanji/${key}/words/`,
     cacheMap,
   });
 
 const grammarsLoader =
-  new DataLoader(keys => Promise.all(keys.map(getGrammars)), { cacheMap });
+  new DataLoader(keys => Promise.all(keys.map(getGrammars)), {
+    cacheKeyFn: key => `/grammars/${key}/`,
+    cacheMap,
+  });
+
+const allGrammarLoader =
+  new DataLoader(keys => Promise.all(keys.map(getAllGrammar)), {
+    cacheKeyFn: key => `/grammars/all/${key}/`,
+    cacheMap,
+  });
 
 const grammarLoader =
   new DataLoader(keys => Promise.all(keys.map(getGrammar)), {
-    cacheKeyFn: key => `/grammars/${key}/`,
+    cacheKeyFn: key => `/grammar/${key}/`,
     cacheMap,
   });
 
@@ -101,7 +130,8 @@ kanjiLoader.loadAll = kanjisLoader.load.bind(kanjisLoader);
 kanjiLoader.loadSentences = sentenceOfKanjiLoader.load.bind(sentenceOfKanjiLoader);
 kanjiLoader.loadWords = wordOfKanjiLoader.load.bind(wordOfKanjiLoader);
 
-grammarLoader.loadAll = grammarsLoader.load.bind(grammarsLoader);
+grammarLoader.loadGrammars = grammarsLoader.load.bind(grammarsLoader);
+grammarLoader.loadAll = allGrammarLoader.load.bind(allGrammarLoader, '__all__');
 
 const dataloader = {
   kanji: kanjiLoader,

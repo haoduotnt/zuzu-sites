@@ -19,6 +19,7 @@ import kanjimatome from './queries/kanjimatome';
 import kanjis from './queries/kanjis';
 import grammars from './queries/grammars';
 import grammar from './queries/grammar';
+import grammarall from './queries/grammarall';
 
 const schema = new Schema({
   query: new ObjectType({
@@ -31,6 +32,7 @@ const schema = new Schema({
       kanjimatome,
       grammar,
       grammars,
+      grammarall,
     },
   }),
 });

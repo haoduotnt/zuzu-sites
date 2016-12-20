@@ -7,21 +7,13 @@
  * LICENSE.txt file in the root directory of this source tree.
  */
 
-import {
-  GraphQLInt as IntType,
-  GraphQLNonNull as NonNull,
-} from 'graphql';
-
 import GrammarsType from '../types/GrammarsType';
 
-const grammars = {
+const grammarall = {
   type: GrammarsType,
-  args: {
-    page: { type: new NonNull(IntType) },
-  },
   async resolve({ request }, { page }, { loaders }) {
-    return loaders.grammar.loadGrammars(page);
+    return loaders.grammar.loadAll();
   },
 };
 
-export default grammars;
+export default grammarall;

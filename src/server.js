@@ -41,6 +41,7 @@ import facebookAuth from './core/auth/facebook';
 import googleAuth from './core/auth/google';
 import logger from './core/logger';
 import dataloader from './data/dataloader';
+import fetch from './core/fetch';
 
 const app = express();
 
@@ -116,8 +117,21 @@ app.get('*', async (req, res, next) => {
       value: Date.now(),
     }));
 
+    const resp = await fetch('/graphql', {
+      method: 'post',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        query: '{grammarall{grammars{grammar,hiragana,jlpt}}}',
+      }),
+      credentials: 'include',
+    });
+    const graphqlData = await resp.json();
+
     store.dispatch(getGrammars({
-      grammars: [],
+      grammars: graphqlData.data.grammarall.grammars,
     }));
 
     const css = new Set();

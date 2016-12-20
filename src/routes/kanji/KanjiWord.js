@@ -47,10 +47,11 @@ class KanjiWord extends React.Component {
     const { kanji } = this.state;
     let wordsCompoment;
     if (kanji.words && kanji.words.length > 0) {
+      const words = kanji.words.sort((a, b) => b.jlptLevel - a.jlptLevel);
       wordsCompoment = (
         <div className={s.kanjiArea}>
           <Subheader style={this.styles.subheader}>Words</Subheader>
-          {kanji.words.length !== 0 && kanji.words.map((word) => {
+          {words.length !== 0 && words.map((word) => {
             const regex = /\(\d\)/g;
             const meanings = word.meaning.split(regex);
             return (

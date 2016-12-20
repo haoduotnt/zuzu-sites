@@ -35,9 +35,12 @@ export default {
     });
     const { data } = await resp.json();
     if (data && data.kanjimatome) {
-      let description = `Kanji ${String.fromCharCode(code)}`;
+      let description = `${data.kanjimatome.kanji.jlptLevel ? `N${data.kanjimatome.kanji.jlptLevel}.` : ''} Stroke: ${data.kanjimatome.kanji.strokeCount}. `;
+      if (data.kanjimatome.kanji.koohiiStory1) {
+        description += `Story 1: ${data.kanjimatome.kanji.koohiiStory1} `;
+      }
       if (data.kanjimatome.kanji.koohiiStory2) {
-        description = `${data.kanjimatome.kanji.jlptLevel ? `N${data.kanjimatome.kanji.jlptLevel}.` : ''} Stroke: ${data.kanjimatome.kanji.strokeCount}. Story 1: ${data.kanjimatome.kanji.koohiiStory2}. Story 2: ${data.kanjimatome.kanji.koohiiStory1}`;
+        description += `Story 2: ${data.kanjimatome.kanji.koohiiStory2}`;
       }
       return {
         title: `Kanji ${String.fromCharCode(data.kanjimatome.kanji.code)}`,

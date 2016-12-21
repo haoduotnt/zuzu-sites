@@ -30,6 +30,23 @@ function getKanjis(page) {
     });
 }
 
+function getAllKanji() {
+  return getJSONFromRelativeURL('/kanjis/search/allKanji')
+    .then(data => {
+      const kanjiInfo = {};
+      /* eslint no-underscore-dangle: ["error", { "allow": ["_embedded"] }]*/
+      if (data._embedded) {
+        kanjiInfo.kanjis = data._embedded.kanjis;
+        kanjiInfo.kanjis.sort((a, b) => a.code - b.code);
+      }
+
+      if (data.page) {
+        kanjiInfo.page = data.page;
+      }
+      return kanjiInfo;
+    });
+}
+
 function getKanji(id) {
   return getDataByURL(`/kanjis/${id}/`);
 }
@@ -96,6 +113,12 @@ const kanjiLoader =
     cacheMap,
   });
 
+const allKanjiLoader =
+  new DataLoader(keys => Promise.all(keys.map(getAllKanji)), {
+    cacheKeyFn: key => `/kanjis/all/${key}/`,
+    cacheMap,
+  });
+
 const sentenceOfKanjiLoader =
   new DataLoader(keys => Promise.all(keys.map(getSentenceOfKanji)), {
     cacheKeyFn: key => `/kanji/${key}/sentences/`,
@@ -126,7 +149,8 @@ const grammarLoader =
     cacheMap,
   });
 
-kanjiLoader.loadAll = kanjisLoader.load.bind(kanjisLoader);
+kanjiLoader.loadKanjis = kanjisLoader.load.bind(kanjisLoader);
+kanjiLoader.loadAll = allKanjiLoader.load.bind(allKanjiLoader, '__all__');
 kanjiLoader.loadSentences = sentenceOfKanjiLoader.load.bind(sentenceOfKanjiLoader);
 kanjiLoader.loadWords = wordOfKanjiLoader.load.bind(wordOfKanjiLoader);
 

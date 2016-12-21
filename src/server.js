@@ -36,6 +36,7 @@ import configureStore from './store/configureStore';
 import { setRuntimeVariable } from './actions/runtime';
 import { detectDevice } from './actions/device';
 import { getGrammars } from './actions/grammars';
+import { getKanjis } from './actions/kanjis';
 import { port, auth } from './config';
 import facebookAuth from './core/auth/facebook';
 import googleAuth from './core/auth/google';
@@ -117,7 +118,7 @@ app.get('*', async (req, res, next) => {
       value: Date.now(),
     }));
 
-    const resp = await fetch('/graphql', {
+    let resp = await fetch('/graphql', {
       method: 'post',
       headers: {
         Accept: 'application/json',
@@ -128,10 +129,27 @@ app.get('*', async (req, res, next) => {
       }),
       credentials: 'include',
     });
-    const graphqlData = await resp.json();
+    let graphqlData = await resp.json();
 
     store.dispatch(getGrammars({
       grammars: graphqlData.data.grammarall.grammars,
+    }));
+
+    resp = await fetch('/graphql', {
+      method: 'post',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        query: '{kanjiall{kanjis{code,kunReading,onReading,meaning}}}',
+      }),
+      credentials: 'include',
+    });
+    graphqlData = await resp.json();
+
+    store.dispatch(getKanjis({
+      kanjis: graphqlData.data.kanjiall.kanjis,
     }));
 
     const css = new Set();

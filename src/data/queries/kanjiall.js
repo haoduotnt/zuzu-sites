@@ -7,21 +7,13 @@
  * LICENSE.txt file in the root directory of this source tree.
  */
 
-import {
-  GraphQLInt as IntType,
-  GraphQLNonNull as NonNull,
-} from 'graphql';
-
 import KanjisType from '../types/KanjisType';
 
-const kanjis = {
+const kanjiall = {
   type: KanjisType,
-  args: {
-    page: { type: new NonNull(IntType) },
-  },
   async resolve({ request }, { page }, { loaders }) {
-    return loaders.kanji.loadKanjis(page);
+    return loaders.kanji.loadAll();
   },
 };
 
-export default kanjis;
+export default kanjiall;

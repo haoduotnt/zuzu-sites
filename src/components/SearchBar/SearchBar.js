@@ -15,81 +15,6 @@ import MenuItem from 'material-ui/MenuItem';
 import SearchIcon from 'material-ui/svg-icons/action/search';
 import s from './SearchBar.css';
 
-const fruit = [
-  'Apple', 'Apricot', 'Avocado',
-  'Banana', 'Bilberry', 'Blackberry', 'Blackcurrant', 'Blueberry',
-  'Boysenberry', 'Blood Orange',
-  'Cantaloupe', 'Currant', 'Cherry', 'Cherimoya', 'Cloudberry',
-  'Coconut', 'Cranberry', 'Clementine',
-  'Damson', 'Date', 'Dragonfruit', 'Durian',
-  'Elderberry',
-  'Feijoa', 'Fig',
-  'Goji berry', 'Gooseberry', 'Grape', 'Grapefruit', 'Guava',
-  'Honeydew', 'Huckleberry',
-  'Jabouticaba', 'Jackfruit', 'Jambul', 'Jujube', 'Juniper berry',
-  'Kiwi fruit', 'Kumquat',
-  'Lemon', 'Lime', 'Loquat', 'Lychee',
-  'Nectarine',
-  'Mango', 'Marion berry', 'Melon', 'Miracle fruit', 'Mulberry', 'Mandarine',
-  'Olive', 'Orange',
-  'Papaya', 'Passionfruit', 'Peach', 'Pear', 'Persimmon', 'Physalis', 'Plum', 'Pineapple',
-  'Pumpkin', 'Pomegranate', 'Pomelo', 'Purple Mangosteen',
-  'Quince',
-  'Raspberry', 'Raisin', 'Rambutan', 'Redcurrant',
-  'Salal berry', 'Satsuma', 'Star fruit', 'Strawberry', 'Squash', 'Salmonberry',
-  'Tamarillo', 'Tamarind', 'Tomato', 'Tangerine',
-  'Ugli fruit',
-  'Watermelon',
-];
-
-const dataSource = [
-  {
-    text: '日',
-    value: (
-      <MenuItem
-        primaryText="日"
-        secondaryText="&#9786;"
-      />
-    ),
-  },
-  {
-    text: '本',
-    value: (
-      <MenuItem
-        primaryText="本"
-        secondaryText="&#9786;"
-      />
-    ),
-  },
-  {
-    text: '語',
-    value: (
-      <MenuItem
-        primaryText="語"
-        secondaryText="&#9786;"
-      />
-    ),
-  },
-  {
-    text: '日本',
-    value: (
-      <MenuItem
-        primaryText="日本"
-        secondaryText="&#9786;"
-      />
-    ),
-  },
-  {
-    text: '日本語',
-    value: (
-      <MenuItem
-        primaryText="日本語"
-        secondaryText="&#9786;"
-      />
-    ),
-  },
-];
-
 const styles = {
   autocomplete: {
     paddingLeft: 10,
@@ -104,19 +29,37 @@ const styles = {
 class SearchBar extends React.Component {
   constructor(props) {
     super(props);
+    this.state =
+      {
+        kanjiDataSource: [],
+        grammarDataSource: [],
+      };
+  }
+
+  componentWillMount() {
+    let kanjiDataSource = [];
+    let grammarDataSource = [];
+    if (this.props.type === "kanji") {
+      this.props.kanjis.map((item, index) => {
+        const kanji = String.fromCharCode(item.code);
+        kanjiDataSource.push({
+            text: kanji,
+            value: (<MenuItem primaryText={kanji} secondaryText="&#9786;"/>)
+          });
+      })
+      this.setState({kanjiDataSource: kanjiDataSource});
+    } else if (this.props.type === "grammar") {
+      this.props.grammars.map((item, index) => {
+        kanjiDataSource.push({
+            text: item.hiragana,
+            value: (<MenuItem primaryText={item.hiragana} secondaryText="&#9786;"/>)
+          });
+      });
+      this.setState({grammarDataSource: grammarDataSource});
+    }
   }
 
   kanjiFilter = (searchText, key) => {
-    for (let index = 0; index < searchText.length; index++) {
-      if (searchText[index] === key) {
-        return true;
-      }
-    }
-
-    return false;
-  };
-
-  grammarFilter = (searchText, key) => {
     for (let index = 0; index < searchText.length; index++) {
       if (searchText[index] === key) {
         return true;
@@ -134,7 +77,7 @@ class SearchBar extends React.Component {
           style={styles.autocomplete}
           textFieldStyle={styles.textfield}
           filter={this.kanjiFilter}
-          dataSource={dataSource}
+          dataSource={this.state.kanjiDataSource}
           maxSearchResults={5}
           fullWidth
         />
@@ -144,8 +87,8 @@ class SearchBar extends React.Component {
         <AutoComplete
           style={styles.autocomplete}
           textFieldStyle={styles.textfield}
-          filter={this.grammarFilter}
-          dataSource={dataSource}
+          filter={AutoComplete.fuzzyFilter}
+          dataSource={this.state.grammarDataSource}
           maxSearchResults={5}
           fullWidth
         />
@@ -164,6 +107,7 @@ function mapStateToProps(state) {
   return {
     device: state.device.device,
     grammars: state.grammars.grammars,
+    kanjis: state.kanjis.kanjis,
   };
 }
 

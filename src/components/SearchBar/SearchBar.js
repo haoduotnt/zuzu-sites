@@ -37,22 +37,27 @@ class SearchBar extends React.Component {
   }
 
   componentWillMount() {
-    let kanjiDataSource = [];
-    let grammarDataSource = [];
     if (this.props.type === "kanji") {
+      let kanjiDataSource = [];
       this.props.kanjis.map((item, index) => {
         const kanji = String.fromCharCode(item.code);
         kanjiDataSource.push({
             text: kanji,
-            value: (<MenuItem primaryText={kanji} secondaryText="&#9786;"/>)
+            value: (
+              <MenuItem
+                primaryText={kanji}
+                secondaryText={item.meaning}
+                secondaryTextLines={2}
+              />)
           });
       })
       this.setState({kanjiDataSource: kanjiDataSource});
     } else if (this.props.type === "grammar") {
+      let grammarDataSource = [];
       this.props.grammars.map((item, index) => {
-        kanjiDataSource.push({
+        grammarDataSource.push({
             text: item.hiragana,
-            value: (<MenuItem primaryText={item.hiragana} secondaryText="&#9786;"/>)
+            value: (<MenuItem primaryText={item.grammar} secondaryText="&#9786;"/>)
           });
       });
       this.setState({grammarDataSource: grammarDataSource});

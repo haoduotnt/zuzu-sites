@@ -11,7 +11,8 @@ import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import Autosuggest from 'react-autosuggest';
-import s from './Grammar.css';
+import s from './Grammars.css';
+import Link from '../../components/Link';
 
 const people = [
   {
@@ -126,7 +127,7 @@ class Grammars extends React.Component {
           <ul className={s.news}>
             {this.props.grammars.map((item, index) => (
               <li key={index} className={s.newsItem}>
-                <a href={item.link} className={s.newsTitle}>{item.id} {item.grammar}</a>
+                <Link className={s.newsTitle} to={`/japanese/grammars/${item.id}`}>{item.id} {item.grammar}</Link>
                 <span
                   className={s.newsDesc}
                   dangerouslySetInnerHTML={{ __html: item.definition }}
@@ -142,7 +143,7 @@ class Grammars extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    grammars: state.grammars.grammars,
+    device: state.device.device,
   };
 }
 

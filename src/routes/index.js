@@ -26,6 +26,7 @@ export default {
     require('./kanji').default,
     require('./kanjipage').default,
     require('./kanjis').default,
+    require('./grammar').default,
     require('./grammars').default,
 
     // place new routes before...

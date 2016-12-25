@@ -25,6 +25,7 @@
     "front-matter": "2.1.1",
     "graphql": "0.8.2",
     "history": "4.4.1",
+    "htmlparser2": "^3.9.2",
     "isomorphic-style-loader": "1.1.0",
     "jsonwebtoken": "7.1.9",
     "log4js": "^1.0.1",

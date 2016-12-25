@@ -9,7 +9,13 @@
 
 import React from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
+import { parseString } from 'xml2js';
+import htmlparser from 'htmlparser2';
 import s from './Grammar.css';
+
+/* eslint func-names: ["error", "always"]*/
+
+
 
 class Grammar extends React.Component {
   static propTypes = {
@@ -17,10 +23,25 @@ class Grammar extends React.Component {
   }
 
   render() {
+    const xml = this.props.grammar.formated;
+    const parser = new htmlparser.Parser({
+      onopentag(name) {
+        console.log('Open tag:', name);
+      },
+      ontext(text) {
+        console.log('-->', text);
+      },
+      onclosetag(name) {
+        console.log('Close tag: ', name);
+      },
+    }, { decodeEntities: true });
+    parser.write(xml);
+    parser.end();
+
     return (
       <div className={s.root}>
         <div className={s.container}>
-          {this.props.grammar.definition}
+          {this.props.grammar.formated}
         </div>
       </div>
     );

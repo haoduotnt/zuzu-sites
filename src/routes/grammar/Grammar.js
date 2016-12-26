@@ -7,41 +7,23 @@
  * LICENSE.txt file in the root directory of this source tree.
  */
 
-import React from 'react';
+import React, { PropTypes } from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
-import { parseString } from 'xml2js';
-import htmlparser from 'htmlparser2';
 import s from './Grammar.css';
 
 /* eslint func-names: ["error", "always"]*/
 
-
-
 class Grammar extends React.Component {
   static propTypes = {
-    grammar: React.PropTypes.object,
-  }
+    content: PropTypes.string.isRequired,
+  };
 
   render() {
-    const xml = this.props.grammar.formated;
-    const parser = new htmlparser.Parser({
-      onopentag(name) {
-        console.log('Open tag:', name);
-      },
-      ontext(text) {
-        console.log('-->', text);
-      },
-      onclosetag(name) {
-        console.log('Close tag: ', name);
-      },
-    }, { decodeEntities: true });
-    parser.write(xml);
-    parser.end();
-
+    const { content } = this.props;
     return (
       <div className={s.root}>
         <div className={s.container}>
-          {this.props.grammar.formated}
+          <div dangerouslySetInnerHTML={{ __html: content }} />
         </div>
       </div>
     );

@@ -11,7 +11,6 @@ import React from 'react';
 import Grammar from './Grammar';
 import fetch from '../../core/fetch';
 import Layout from '../../components/Layout';
-import Maintenance from '../../components/Maintenance';
 
 export default {
 
@@ -26,23 +25,17 @@ export default {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        query: `{grammar(code:${id}){id,grammar,hiragana,definition,formated}}`,
+        query: `{content(path:"/japanese/grammar/${id}"){path,title,content,description,component}}`,
       }),
       credentials: 'include',
     });
+    if (resp.status !== 200) throw new Error(resp.statusText);
     const { data } = await resp.json();
-    let component = (
-      <Maintenance />
-    );
-    if (data && data.grammar) {
-      component = (
-        <Grammar grammar={data.grammar} />
-      );
-    }
+    if (!data || !data.content) return undefined;
     return {
-      title: 'Japanese Grammar Summary',
-      description: 'This summary of some basic Japanese grammar has been derived from the Japanese grammar text books. Let\'s enjoy with these',
-      component: <Layout type="grammar">{component}</Layout>,
+      title: data.content.title,
+      description: data.content.description,
+      component: <Layout><Grammar {...data.content} /></Layout>,
     };
   },
 

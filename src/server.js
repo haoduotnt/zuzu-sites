@@ -44,6 +44,8 @@ import logger from './core/logger';
 import dataloader from './data/dataloader';
 import fetch from './core/fetch';
 
+const grammars = require('./data/grammars.json');
+const kanjis = require('./data/kanjis.json');
 const app = express();
 
 //
@@ -118,38 +120,12 @@ app.get('*', async (req, res, next) => {
       value: Date.now(),
     }));
 
-    let resp = await fetch('/graphql', {
-      method: 'post',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        query: '{grammarall{grammars{id,grammar,hiragana,jlpt}}}',
-      }),
-      credentials: 'include',
-    });
-    let graphqlData = await resp.json();
-
     store.dispatch(getGrammars({
-      grammars: graphqlData.data.grammarall.grammars,
+      grammars: grammars.data.grammarall.grammars,
     }));
 
-    resp = await fetch('/graphql', {
-      method: 'post',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        query: '{kanjiall{kanjis{code,kunReading,onReading,meaning}}}',
-      }),
-      credentials: 'include',
-    });
-    graphqlData = await resp.json();
-
     store.dispatch(getKanjis({
-      kanjis: graphqlData.data.kanjiall.kanjis,
+      kanjis: kanjis.data.kanjiall.kanjis,
     }));
 
     const css = new Set();

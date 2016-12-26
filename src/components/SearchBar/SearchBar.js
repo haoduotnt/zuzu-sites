@@ -13,6 +13,7 @@ import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import AutoComplete from 'material-ui/AutoComplete';
 import MenuItem from 'material-ui/MenuItem';
 import SearchIcon from 'material-ui/svg-icons/action/search';
+import history from '../../core/history';
 import s from './SearchBar.css';
 
 const styles = {
@@ -31,8 +32,8 @@ class SearchBar extends React.Component {
     super(props);
     this.state =
       {
-        kanjiDataSource: [],
-        grammarDataSource: [],
+        dataSource: [],
+        searchText: '',
       };
   }
 
@@ -51,16 +52,20 @@ class SearchBar extends React.Component {
               />)
           });
       })
-      this.setState({kanjiDataSource: kanjiDataSource});
+      this.setState({dataSource: kanjiDataSource});
     } else if (this.props.type === "grammar") {
       let grammarDataSource = [];
       this.props.grammars.map((item, index) => {
         grammarDataSource.push({
-            text: item.hiragana,
-            value: (<MenuItem primaryText={item.grammar} secondaryText="&#9786;"/>)
+            text: `${item.hiragana} ${item.grammar}`,
+            value: (
+              <MenuItem
+                primaryText={`${item.id}. ${item.grammar}`}
+                secondaryText="&#9786;"
+              />)
           });
       });
-      this.setState({grammarDataSource: grammarDataSource});
+      this.setState({dataSource: grammarDataSource});
     }
   }
 
@@ -74,6 +79,23 @@ class SearchBar extends React.Component {
     return false;
   };
 
+  handleUpdateInput = (searchText) => {
+    this.setState({
+      searchText: searchText,
+    });
+  };
+
+  handleNewRequest = (chosenRequest, index) => {
+    this.setState({
+      searchText: '',
+    });
+    if (this.props.type === "kanji") {
+      history.push(`/japanese/kanjis/${chosenRequest.text}`);
+    } else {
+      history.push(`/japanese/grammars/${index}`);
+    }
+  };
+
   render() {
     let autocomplete;
     if (this.props.type === "kanji") {
@@ -81,9 +103,13 @@ class SearchBar extends React.Component {
         <AutoComplete
           style={styles.autocomplete}
           textFieldStyle={styles.textfield}
+          searchText={this.state.searchText}
           filter={this.kanjiFilter}
-          dataSource={this.state.kanjiDataSource}
+          onUpdateInput={this.handleUpdateInput}
+          onNewRequest={this.handleNewRequest}
+          dataSource={this.state.dataSource}
           maxSearchResults={5}
+          openOnFocus={true}
           fullWidth
         />
       );
@@ -92,9 +118,13 @@ class SearchBar extends React.Component {
         <AutoComplete
           style={styles.autocomplete}
           textFieldStyle={styles.textfield}
-          filter={AutoComplete.fuzzyFilter}
-          dataSource={this.state.grammarDataSource}
+          searchText={this.state.searchText}
+          filter={AutoComplete.defaultFilter}
+          onUpdateInput={this.handleUpdateInput}
+          onNewRequest={this.handleNewRequest}
+          dataSource={this.state.dataSource}
           maxSearchResults={5}
+          openOnFocus={true}
           fullWidth
         />
       )

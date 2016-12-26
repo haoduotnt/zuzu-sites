@@ -25,10 +25,6 @@ class Kanji extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {
-      kanji: props.kanji,
-      code: props.code,
-    };
     this.styles = {
       chip: {
         margin: 4,
@@ -54,7 +50,7 @@ class Kanji extends React.Component {
   }
 
   componentWillMount() {
-    const { kanji } = this.state;
+    const { kanji } = this.props;
     if (kanji.kanji.kunReading) {
       kanji.kanji.kuns = kanji.kanji.kunReading.split(',');
     }
@@ -70,7 +66,7 @@ class Kanji extends React.Component {
   }
 
   render() {
-    const { code, kanji } = this.state;
+    const { code, kanji } = this.props;
     let meaningCompoment;
     if (kanji.kanji.meanings) {
       const meanings = kanji.kanji.meanings;

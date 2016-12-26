@@ -15,7 +15,7 @@ import Maintenance from '../../components/Maintenance';
 
 export default {
 
-  path: '/japanese/grammars/:id',
+  path: '/japanese/grammar/:id',
 
   async action({ params }) {
     const id = params.id;

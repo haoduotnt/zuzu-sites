@@ -90,9 +90,9 @@ class SearchBar extends React.Component {
       searchText: '',
     });
     if (this.props.type === "kanji") {
-      history.push(`/japanese/kanjis/${chosenRequest.text}`);
+      history.push(`/japanese/kanji/${chosenRequest.text}`);
     } else {
-      history.push(`/japanese/grammars/${index}`);
+      history.push(`/japanese/grammar/${index}`);
     }
   };
 

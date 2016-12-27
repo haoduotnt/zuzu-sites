@@ -35,7 +35,7 @@ export default {
     return {
       title: data.content.title,
       description: data.content.description,
-      component: <Layout><Grammar {...data.content} /></Layout>,
+      component: <Layout type="grammar"><Grammar {...data.content} /></Layout>,
     };
   },
 
